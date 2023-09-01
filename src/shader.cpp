@@ -3,6 +3,7 @@
 //
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "shader.hpp"
 #include <fstream>
@@ -79,4 +80,13 @@ void ShaderProgram::buildProgram(){
 
 void ShaderProgram::use(){
     glUseProgram(ID);
+    setDefaultUniforms();
+}
+
+int ShaderProgram::getUniformLocation(char *name) {
+    return glGetUniformLocation(ID, name);
+}
+
+void ShaderProgram::setDefaultUniforms() {
+    glUniform1f(getUniformLocation("uTime"), glfwGetTime());
 }

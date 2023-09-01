@@ -4,6 +4,8 @@
 
 #pragma once
 #include <string>
+#include <map>
+#include <string>
 
 enum class ShaderType {
     FRAG,
@@ -32,11 +34,16 @@ class ShaderProgram{
 public:
     ShaderProgram();
     void addShader(Shader& shader);
+    // must be called directly after adding ALL the shaders
     void buildProgram();
     void use();
+
+    int getUniformLocation(char* name);
 private:
     unsigned int ID;
+    std::map<std::string, int> uniformLocations;
 
+    void setDefaultUniforms();
 };
 
 
