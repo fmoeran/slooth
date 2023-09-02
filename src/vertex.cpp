@@ -18,6 +18,13 @@ VertexColored::VertexColored(float x, float y, float z, float r, float g, float 
 
 VertexColored::VertexColored(glm::vec3 pos, glm::vec3 col): position(pos), rgb(col) {}
 
+
+VertexArray::VertexArray() {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+}
+
 VertexArray::VertexArray(void *vertices, size_t vertSize, void *indices, size_t indSize, VertexEnum vertexType)
 : vertSize(vertSize), indSize(indSize){
     // create buffer IDs
@@ -56,3 +63,5 @@ void VertexArray::draw() {
     // assumes that the indices are unsigned ints
     glDrawElements(GL_TRIANGLES, indSize/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 }
+
+

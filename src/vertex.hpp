@@ -27,6 +27,7 @@ struct VertexColored {
 
 
 struct VertexArray {
+    VertexArray();
     VertexArray(void *vertices, size_t vertSize, void *indices, size_t indSize, VertexEnum vertexType);
 
     void draw();
