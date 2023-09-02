@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCE_FILES src/*.hpp src/*.cpp libraries/glad/src/glad.c)
 
-add_executable(slooth ${SOURCE_FILES} src/vertex.cpp src/vertex.hpp src/shader.cpp src/shader.hpp)
+add_executable(slooth ${SOURCE_FILES} src/vertex.cpp src/vertex.hpp src/shader.cpp src/shader.hpp src/camera.hpp)
 
 # glfw
 
@@ -28,4 +28,8 @@ target_link_libraries(slooth OpenGL::GL)
 #glad
 
 target_include_directories(slooth PRIVATE libraries/glad/include)
+
+#glm
+
+target_include_directories(slooth PRIVATE libraries/glm/include)
 

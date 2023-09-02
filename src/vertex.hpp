@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include <cstddef>
 
 enum class VertexEnum {
@@ -11,14 +13,16 @@ enum class VertexEnum {
 };
 
 struct Vertex {
-    float position[3];
+    glm::vec3 position;
     Vertex(float x, float y, float z);
+    Vertex(glm::vec3 pos);
 };
 
 struct VertexColored {
-    float position[3];
-    float rgb[3];
+    glm::vec3 position;
+    glm::vec3 rgb;
     VertexColored(float x, float y, float z, float r, float g, float b);
+    VertexColored(glm::vec3 pos, glm::vec3 col);
 };
 
 

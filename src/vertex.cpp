@@ -6,19 +6,17 @@
 #include <glad/glad.h>
 
 Vertex::Vertex(float x, float y, float z) {
-    position[0] = x;
-    position[1] = y;
-    position[2] = z;
+    position = {x, y, z};
 }
 
+Vertex::Vertex(glm::vec3 pos) : position(pos) {}
+
 VertexColored::VertexColored(float x, float y, float z, float r, float g, float b) {
-    position[0] = x;
-    position[1] = y;
-    position[2] = z;
-    rgb[0] = r;
-    rgb[1] = g;
-    rgb[2] = b;
+    position = {x, y, z};
+    rgb = {r, g, b};
 }
+
+VertexColored::VertexColored(glm::vec3 pos, glm::vec3 col): position(pos), rgb(col) {}
 
 VertexArray::VertexArray(void *vertices, size_t vertSize, void *indices, size_t indSize, VertexEnum vertexType)
 : vertSize(vertSize), indSize(indSize){
