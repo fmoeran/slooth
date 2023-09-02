@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCE_FILES src/*.hpp src/*.cpp libraries/glad/src/glad.c)
 
-add_executable(slooth ${SOURCE_FILES} src/vertex.cpp src/vertex.hpp src/shader.cpp src/shader.hpp src/camera.hpp)
+add_executable(slooth ${SOURCE_FILES})
 
 # glfw
 
