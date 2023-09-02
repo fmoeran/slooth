@@ -3,6 +3,9 @@
 //
 
 #pragma once
+
+#include <glad/glad.h>
+
 #include <string>
 #include <map>
 #include <string>
