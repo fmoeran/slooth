@@ -5,6 +5,8 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 
 #include <string>
 #include <map>
@@ -41,12 +43,12 @@ public:
     void buildProgram();
     void use();
 
-    int getUniformLocation(char* name);
+    int getUniformLocation(char* name) const;
 private:
     unsigned int ID;
     std::map<std::string, int> uniformLocations;
 
-    void setDefaultUniforms();
+    void setDefaultUniforms() const;
 };
 
 

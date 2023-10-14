@@ -83,10 +83,10 @@ void ShaderProgram::use(){
     setDefaultUniforms();
 }
 
-int ShaderProgram::getUniformLocation(char *name) {
+int ShaderProgram::getUniformLocation(char *name) const {
     return glGetUniformLocation(ID, name);
 }
 
-void ShaderProgram::setDefaultUniforms() {
-    glUniform1f(getUniformLocation("uTime"), glfwGetTime());
+void ShaderProgram::setDefaultUniforms() const {
+    glUniform1f(getUniformLocation((char*)"uTime"), glfwGetTime());
 }
