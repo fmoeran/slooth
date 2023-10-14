@@ -21,6 +21,8 @@ private:
     VertexArray VAO;
     ShaderProgram program;
 
+    friend class Camera;
+
 };
 
 
