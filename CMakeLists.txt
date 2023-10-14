@@ -7,7 +7,15 @@ file(GLOB SOURCE_FILES src/*.hpp src/*.cpp libraries/glad/src/glad.c)
 
 add_executable(slooth ${SOURCE_FILES})
 
+#glad
+
+
+target_include_directories(slooth PRIVATE libraries/glad/include)
+
+
 # glfw
+
+
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -25,9 +33,7 @@ find_package(OpenGL REQUIRED)
 
 target_link_libraries(slooth OpenGL::GL)
 
-#glad
 
-target_include_directories(slooth PRIVATE libraries/glad/include)
 
 #glm
 
