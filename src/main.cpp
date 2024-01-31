@@ -3,6 +3,7 @@
 
 
 #include "window.hpp"
+#include "camera.hpp"
 #include "vertex.hpp"
 #include "object.hpp"
 
@@ -31,6 +32,8 @@ int main()
 {
     Window window(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
 
+    Camera camera(window);
+
     loadGlad();
 
     Object obj;
@@ -43,7 +46,7 @@ int main()
         window.processInput();
         window.fill(0, 0, 0, 1);
 
-        obj.draw();
+        camera.drawObject(obj);
 
         window.display();
     }

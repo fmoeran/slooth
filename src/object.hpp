@@ -7,6 +7,9 @@
 #include "vertex.hpp"
 #include "shader.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 class Object {
 public:
     Object() = default;
@@ -18,8 +21,16 @@ public:
     void draw();
 
 private:
-    VertexArray VAO;
-    ShaderProgram program;
+    VertexArray _vertices;
+    ShaderProgram _program;
+    glm::vec3 _worldSpace;
+    glm::vec3 _rotation;
+    glm::vec3 _scale;
+
+    void setDefaultValues();
+
+    glm::mat4 getTransformMatrix();
+
 
     friend class Camera;
 

@@ -15,14 +15,14 @@
 
 
 Shader::Shader(std::string fileLocation, ShaderType shaderType)
-:type(shaderType), location(std::move(fileLocation)){
+: _type(shaderType), _location(std::move(fileLocation)){
     load();
     compile();
 }
 
 // retrieves the respective GL_XXX_SHADER for a given ShaderType
 GLenum Shader::getGlShaderType() {
-    switch (type){
+    switch (_type){
         case ShaderType::VERT: return GL_VERTEX_SHADER;
         case ShaderType::FRAG: return GL_FRAGMENT_SHADER;
     }
@@ -33,58 +33,58 @@ void Shader::load() {
     std::ifstream file;
     file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try {
-        file.open(location);
+        file.open(_location);
         std::stringstream ss;
         ss << file.rdbuf();
         file.close();
-        sourceCode = ss.str();
+        _sourceCode = ss.str();
     }catch(std::ifstream::failure &e){
-        std::cout << "Failed to load shader location: " << location << std::endl;
+        std::cout << "Failed to load _shader location: " << _location << std::endl;
         throw e;
     }
 }
 
 void Shader::compile(){
     GLenum glShaderType = getGlShaderType();
-    shader = glCreateShader(glShaderType);
-    char* shaderCode = (char*)sourceCode.c_str();
-    glShaderSource(shader, 1, &shaderCode, nullptr);
-    glCompileShader(shader);
+    _shader = glCreateShader(glShaderType);
+    char* shaderCode = (char*)_sourceCode.c_str();
+    glShaderSource(_shader, 1, &shaderCode, nullptr);
+    glCompileShader(_shader);
 
     // check for errors
     int success;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    glGetShaderiv(_shader, GL_COMPILE_STATUS, &success);
     if (!success){
         char infoLog[512];
-        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+        glGetShaderInfoLog(_shader, 512, nullptr, infoLog);
         std::cout << "Shader compilation incomplete:\n" << infoLog << std::endl;
     }
 
 }
 
 Shader::~Shader() {
-    glDeleteShader(shader);
+    glDeleteShader(_shader);
 }
 
 ShaderProgram::ShaderProgram() {
-    ID = glCreateProgram();
+    _ID = glCreateProgram();
 }
 
 void ShaderProgram::addShader(Shader& shader){
-    glAttachShader(ID, shader.shader);
+    glAttachShader(_ID, shader._shader);
 }
 
 void ShaderProgram::buildProgram(){
-    glLinkProgram(ID);
+    glLinkProgram(_ID);
 }
 
 void ShaderProgram::use(){
-    glUseProgram(ID);
+    glUseProgram(_ID);
     setDefaultUniforms();
 }
 
 int ShaderProgram::getUniformLocation(char *name) const {
-    return glGetUniformLocation(ID, name);
+    return glGetUniformLocation(_ID, name);
 }
 
 void ShaderProgram::setDefaultUniforms() const {

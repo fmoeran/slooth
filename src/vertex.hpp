@@ -33,7 +33,7 @@ struct VertexArray {
     void draw();
 
 private:
-    unsigned int VAO, VBO, EBO;
+    unsigned int _VAO, _VBO, _EBO;
     size_t vertSize, indSize;
 
     void initAttribsDefault();

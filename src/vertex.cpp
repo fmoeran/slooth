@@ -20,21 +20,21 @@ VertexColored::VertexColored(glm::vec3 pos, glm::vec3 col): position(pos), rgb(c
 
 
 VertexArray::VertexArray() {
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    glGenVertexArrays(1, &_VAO);
+    glGenBuffers(1, &_VBO);
+    glGenBuffers(1, &_EBO);
 }
 
 VertexArray::VertexArray(void *vertices, size_t vertSize, void *indices, size_t indSize, VertexEnum vertexType)
 : vertSize(vertSize), indSize(indSize){
     // create buffer IDs
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    glGenVertexArrays(1, &_VAO);
+    glGenBuffers(1, &_VBO);
+    glGenBuffers(1, &_EBO);
     // bind IDs so that we can initialise them
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBindVertexArray(_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
     // set buffers' data
     glBufferData(GL_ARRAY_BUFFER, vertSize, vertices, GL_STATIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize, indices, GL_STATIC_DRAW);
@@ -59,7 +59,7 @@ void VertexArray::initAttribsColored() {
 }
 
 void VertexArray::draw() {
-    glBindVertexArray(VAO);
+    glBindVertexArray(_VAO);
     // assumes that the indices are unsigned ints
     glDrawElements(GL_TRIANGLES, indSize/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 }

@@ -22,10 +22,10 @@ public:
     Shader(std::string fileLocation, ShaderType shaderType);
     ~Shader();
 private:
-    unsigned int shader;
-    std::string sourceCode;
-    std::string location;
-    ShaderType type;
+    unsigned int _shader;
+    std::string _sourceCode;
+    std::string _location;
+    ShaderType _type;
 
 
     void load();
@@ -45,8 +45,8 @@ public:
 
     int getUniformLocation(char* name) const;
 private:
-    unsigned int ID;
-    std::map<std::string, int> uniformLocations;
+    unsigned int _ID;
+    std::map<std::string, int> _uniformLocations;
 
     void setDefaultUniforms() const;
 };

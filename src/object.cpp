@@ -5,20 +5,36 @@
 #include "object.hpp"
 
 void Object::setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize) {
-    VAO = VertexArray(vertices, vertSize, indices, indSize, vertexType);
+    _vertices = VertexArray(vertices, vertSize, indices, indSize, vertexType);
 }
 
 void Object::setShaders(std::string vertexShader, std::string fragmentShader) {
     Shader vert = Shader(vertexShader, ShaderType::VERT);
     Shader frag = Shader(fragmentShader, ShaderType::FRAG);
-    program = ShaderProgram();
-    program.addShader(vert);
-    program.addShader(frag);
-    program.buildProgram();
+    _program = ShaderProgram();
+    _program.addShader(vert);
+    _program.addShader(frag);
+    _program.buildProgram();
 }
 
 void Object::draw() {
-    program.use();
-    VAO.draw();
+    _program.use();
+    _vertices.draw();
+}
+
+void Object::setDefaultValues() {
+    _worldSpace = glm::vec3(0);
+    _rotation = glm::vec3(0);
+    _scale = glm::vec3(1);
+
+}
+
+glm::mat4 Object::getTransformMatrix() {
+    glm::mat4 matrix(1);
+    //float rotationMag = _rotation.
+    //matrix = glm::rotate(matrix, _rotation);
+    matrix = glm::scale(matrix, _scale);
+    matrix = glm::translate(matrix, _worldSpace);
+    return matrix;
 }
 

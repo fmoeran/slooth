@@ -24,8 +24,8 @@ Camera::Camera(Window &window, float fovY, glm::vec3 position, float lowerRangeB
 
 void Camera::drawObject(Object& obj) {
     // set the matrix uniform variables
-    int viewLocation = obj.program.getUniformLocation((char*)"view");
-    int projectionLocation = obj.program.getUniformLocation((char*)"projection");
+    int viewLocation = obj._program.getUniformLocation((char*)"view");
+    int projectionLocation = obj._program.getUniformLocation((char*)"projection");
 
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
