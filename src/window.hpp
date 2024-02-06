@@ -6,23 +6,27 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-class Window {
-public:
-    Window(unsigned int width, unsigned int height, char* title=(char*)"Slooth Window");
+namespace slt {
+    class Window {
+    public:
+        Window(unsigned int width, unsigned int height, char *title = (char *) "Slooth Window");
 
 
-    bool shouldClose();
-    void processInput();
-    void fill(float r, float g, float b, float a);
-    void display();
+        bool shouldClose();
 
-    unsigned int getHeight();
-    unsigned int getWidth();
+        void processInput();
+
+        void fill(float r, float g, float b, float a);
+
+        void display();
+
+        unsigned int getHeight();
+
+        unsigned int getWidth();
 
 
-
-private:
-    GLFWwindow* window;
-    unsigned int height, width;
-};
-
+    private:
+        GLFWwindow *window;
+        unsigned int height, width;
+    };
+}

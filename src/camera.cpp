@@ -8,28 +8,32 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Camera::Camera(glm::vec3 position, float fovY, float aspectRatio, float lowerRangeBound, float upperRangeBound) {
-    view = glm::mat4(1);
-    view = glm::translate(view, position);
+namespace slt
+{
 
-    projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
-}
+    Camera::Camera(glm::vec3 position, float fovY, float aspectRatio, float lowerRangeBound, float upperRangeBound) {
+        view = glm::mat4(1);
+        view = glm::translate(view, position);
 
-Camera::Camera(Window &window, float fovY, glm::vec3 position, float lowerRangeBound, float upperRangeBound) {
-    view = glm::mat4(1);
-    view = glm::translate(view, position);
+        projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
+    }
 
-    projection = glm::perspective(fovY, (float)window.getWidth()/(float)window.getHeight(), lowerRangeBound, upperRangeBound);
-}
+    Camera::Camera(Window &window, float fovY, glm::vec3 position, float lowerRangeBound, float upperRangeBound) {
+        view = glm::mat4(1);
+        view = glm::translate(view, position);
 
-void Camera::drawObject(Object& obj) {
-    // set the matrix uniform variables
-    int viewLocation = obj._program.getUniformLocation((char*)"view");
-    int projectionLocation = obj._program.getUniformLocation((char*)"projection");
+        projection = glm::perspective(fovY, (float)window.getWidth()/(float)window.getHeight(), lowerRangeBound, upperRangeBound);
+    }
 
-    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+    void Camera::drawObject(Object& obj) {
+        // set the matrix uniform variables
+        int viewLocation = obj._program.getUniformLocation((char*)"view");
+        int projectionLocation = obj._program.getUniformLocation((char*)"projection");
 
-    obj.draw();
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+
+        obj.draw();
+    }
 }
 

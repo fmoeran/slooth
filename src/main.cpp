@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-
+using namespace slt;
 void loadGlad();
 
 // settings

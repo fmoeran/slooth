@@ -9,32 +9,35 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+namespace slt
+{
+ class Object {
+    public:
+        Object() = default;
 
-class Object {
-public:
-    Object() = default;
-
-    void setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize);
-    void setShaders(std::string vertexShader = "../src/shaders/default.vert", std::string fragmentShader = "../src/shaders/default.frag");
-
-
-    void draw();
-
-private:
-    VertexArray _vertices;
-    ShaderProgram _program;
-    glm::vec3 _worldSpace;
-    glm::vec3 _rotation;
-    glm::vec3 _scale;
-
-    void setDefaultValues();
-
-    glm::mat4 getTransformMatrix();
+        void setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize);
+        void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
 
 
-    friend class Camera;
+        void draw();
 
-};
+    private:
+        VertexArray _vertices;
+        ShaderProgram _program;
+        glm::vec3 _worldSpace;
+        glm::vec3 _rotation;
+        glm::vec3 _scale;
+
+        void setDefaultValues();
+
+        glm::mat4 getTransformMatrix();
+
+
+        friend class Camera;
+
+    };
+}
+
 
 
 
