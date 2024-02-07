@@ -42,10 +42,9 @@ namespace slt
     }
 
     void Object::setDefaultValues() {
-        _worldSpace = glm::vec3(0);
-        _rotation = glm::vec3(0);
-        _scale = glm::vec3(1);
-
+        _worldSpace = vec3(0);
+        _rotation = vec3(0);
+        _scale = vec3(1);
     }
 
     glm::mat4 Object::getTransformMatrix() {
@@ -55,6 +54,30 @@ namespace slt
         matrix = glm::scale(matrix, _scale);
         matrix = glm::translate(matrix, _worldSpace);
         return matrix;
+    }
+
+    void Object::setWorldSpace(vec3 coords) {
+        _worldSpace = coords;
+    }
+
+    vec3 Object::getWorldSpace() {
+        return _worldSpace;
+    }
+
+    void Object::setScale(vec3 scales) {
+        _scale = scales;
+    }
+
+    vec3 Object::getScale() {
+        return _scale;
+    }
+
+    Object::Object() {
+        setDefaultValues();
+    }
+
+    void Object::translate(vec3 vec) {
+        setWorldSpace(getWorldSpace() + vec);
     }
 
 }

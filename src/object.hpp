@@ -13,25 +13,34 @@ namespace slt
 {
  class Object {
     public:
-        Object() = default;
+        Object();
 
         void setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize);
         void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
 
 
-        void draw();
+        void setWorldSpace(vec3 coords);
+        void translate(vec3 vec);
+        vec3 getWorldSpace();
+
+
+        void setScale(vec3 scales);
+        vec3 getScale();
 
     private:
         VertexArray _vertices;
         ShaderProgram _program;
-        glm::vec3 _worldSpace;
-        glm::vec3 _rotation;
-        glm::vec3 _scale;
+        vec3 _worldSpace{};
+        vec3 _rotation{};
+        vec3 _scale{};
 
         void setDefaultValues();
 
         glm::mat4 getTransformMatrix();
 
+         // draws the object to the current un-rendered screen
+         // should only be called by Camera::drawObject
+         void draw();
 
         friend class Camera;
 

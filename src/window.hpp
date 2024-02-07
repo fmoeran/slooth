@@ -5,6 +5,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 namespace slt {
     class Window {
@@ -20,9 +21,9 @@ namespace slt {
 
         void display();
 
-        unsigned int getHeight();
+        unsigned int getHeight() const;
 
-        unsigned int getWidth();
+        unsigned int getWidth() const;
 
 
     private:

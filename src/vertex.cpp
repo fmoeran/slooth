@@ -2,7 +2,6 @@
 // Created by Felix Moeran on 21/08/2023.
 //
 
-#include <iostream>
 #include "vertex.hpp"
 #include <glad/glad.h>
 
@@ -12,14 +11,14 @@ namespace slt
         position = {x, y, z};
     }
 
-    Vertex::Vertex(glm::vec3 pos) : position(pos) {}
+    Vertex::Vertex(vec3 pos) : position(pos) {}
 
     VertexColored::VertexColored(float x, float y, float z, float r, float g, float b) {
         position = {x, y, z};
         rgb = {r, g, b};
     }
 
-    VertexColored::VertexColored(glm::vec3 pos, glm::vec3 col): position(pos), rgb(col) {}
+    VertexColored::VertexColored(vec3 pos, vec3 col): position(pos), rgb(col) {}
 
 
     VertexArray::VertexArray() {

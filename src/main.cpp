@@ -32,7 +32,7 @@ int main()
 {
     Window window(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
 
-    Camera camera(window);
+    Camera camera(window, 45.0, {0, 0, -5});
 
     loadGlad();
 
@@ -45,6 +45,10 @@ int main()
     {
         window.processInput();
         window.fill(0, 0, 0, 1);
+
+        obj.translate({0.00, 0.00, -0.000});
+
+        camera.translate({0, 0.1, -0.01});
 
         camera.drawObject(obj);
 

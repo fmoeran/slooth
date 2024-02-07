@@ -9,7 +9,7 @@
 #include <cstddef>
 namespace slt
 {
-
+    using vec3 = glm::vec3;
     enum class VertexEnum {
         VERTEX, VERTEX_COLORED
     };
@@ -17,14 +17,14 @@ namespace slt
     struct Vertex {
         glm::vec3 position;
         Vertex(float x, float y, float z);
-        Vertex(glm::vec3 pos);
+        Vertex(vec3 pos);
     };
 
     struct VertexColored {
-        glm::vec3 position;
-        glm::vec3 rgb;
+        vec3 position;
+        vec3 rgb;
         VertexColored(float x, float y, float z, float r, float g, float b);
-        VertexColored(glm::vec3 pos, glm::vec3 col);
+        VertexColored(vec3 pos, vec3 col);
     };
 
 

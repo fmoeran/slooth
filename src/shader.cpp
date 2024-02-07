@@ -78,7 +78,7 @@ namespace slt
     void ShaderProgram::buildProgram(){
         glLinkProgram(_ID);
     }
-#include <iostream>
+
     void ShaderProgram::use(){
         glUseProgram(_ID);
         setDefaultUniforms();

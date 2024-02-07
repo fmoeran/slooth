@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCE_FILES src/*.hpp src/*.cpp libraries/glad/src/glad.c)
 
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
+
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+
 add_executable(slooth ${SOURCE_FILES})
 
 #glad

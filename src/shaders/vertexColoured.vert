@@ -6,8 +6,11 @@ layout (location=1) in vec3 clr;
 out vec3 vertClr;
 
 uniform float uTime;
+uniform mat4 uProjection;
+uniform mat4 uView;
+uniform mat4 uModel;
 
 void main(){
-    gl_Position = vec4(pos, 1.0);
+    gl_Position = uProjection * uView * uModel * vec4(pos, 1.0);
     vertClr = clr;
 }

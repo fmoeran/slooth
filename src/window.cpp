@@ -5,6 +5,7 @@
 
 
 #include "GLFW/glfw3.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
 
@@ -37,6 +38,10 @@ namespace slt {
             glfwTerminate();
             throw;
         }
+
+
+
+
         glfwMakeContextCurrent(window);
         glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     }
@@ -47,11 +52,11 @@ namespace slt {
             glfwSetWindowShouldClose(window, true);
     }
 
-    unsigned int Window::getHeight() {
+    unsigned int Window::getHeight() const {
         return height;
     }
 
-    unsigned int Window::getWidth() {
+    unsigned int Window::getWidth() const {
         return width;
     }
 
