@@ -39,19 +39,22 @@ namespace slt
 
         refresh();
 
+
         switch (vertexType){
-            case VertexEnum::VERTEX:         initAttribsDefault();
-            case VertexEnum::VERTEX_COLORED: initAttribsColored();
+            case VertexEnum::VERTEX:         {initAttribsDefault();break;}
+            case VertexEnum::VERTEX_COLORED: {initAttribsColored(); break;}
         }
         glBindVertexArray(0);
     }
 
     void VertexArray::initAttribsDefault() {
+        std::cout << "bye" << std::endl;
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
         glEnableVertexAttribArray(0);
     }
 
     void VertexArray::initAttribsColored() {
+        std::cout << "hi" << std::endl;
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColored), nullptr);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColored), (void*)(offsetof(VertexColored, rgb)));
