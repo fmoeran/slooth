@@ -16,12 +16,17 @@ void loadGlad();
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-VertexColored vertices[] = {
-        VertexColored(0.5, -0.5, 0, 1, 0, 0),
-        VertexColored(0.0, 0.5, 0, 0, 1, 0),
-        VertexColored(-0.5, -0.5, 0, 0, 0, 1)
-};
+//VertexColored vertices[] = {
+//        VertexColored(0.5, -0.5, 0, 1, 0, 0),
+//        VertexColored(0.0, 0.5, 0, 0, 1, 0),
+//        VertexColored(-0.5, -0.5, 0, 0, 0, 1)
+//};
 
+Vertex vertices[] = {
+        Vertex(0.5, -0.5, 0),
+        Vertex(0.0, 0.5, 0),
+        Vertex(-0.5, -0.5, 0)
+};
 
 unsigned int indices[] = {
         0, 1, 2,
@@ -37,7 +42,7 @@ int main()
     loadGlad();
 
     Object obj;
-    obj.setVertices(VertexEnum::VERTEX_COLORED, vertices, sizeof(vertices), indices, sizeof(indices));
+    obj.setVertices(VertexEnum::VERTEX, vertices, sizeof(vertices), indices, sizeof(indices));
     obj.setShaders();
 
 
@@ -45,10 +50,6 @@ int main()
     {
         window.processInput();
         window.fill(0, 0, 0, 1);
-
-        obj.translate({0.00, 0.00, -0.000});
-
-        camera.translate({0, 0.1, -0.01});
 
         camera.drawObject(obj);
 
