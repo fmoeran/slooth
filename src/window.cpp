@@ -39,11 +39,12 @@ namespace slt {
             throw;
         }
 
-
-
-
         glfwMakeContextCurrent(window);
         glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+
+
+
+        _startupTime = glfwGetTime();
     }
 
     void Window::processInput() {
@@ -72,6 +73,22 @@ namespace slt {
     void Window::display() {
         glfwSwapBuffers(window);
 
+        // update time variables
+        double t = time();
+        _deltaTime = t - _frameTime;
+        _frameTime = time();
+    }
+
+    double Window::time() const {
+        return glfwGetTime() - _startupTime;
+    }
+
+    double Window::frameTime() const{
+        return _frameTime;
+    }
+
+    double Window::deltaTime() const{
+        return _deltaTime;
     }
 
 

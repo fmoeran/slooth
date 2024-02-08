@@ -4,6 +4,7 @@
 
 #include "vertex.hpp"
 #include <glad/glad.h>
+#include<iostream>
 
 namespace slt
 {
@@ -29,19 +30,14 @@ namespace slt
     }
 
     VertexArray::VertexArray(void *vertices, size_t vertSize, void *indices, size_t indSize, VertexEnum vertexType)
-            : vertSize(vertSize), indSize(indSize){
+            : _vertices(vertices), _indices(indices), _vertSize(vertSize), _indSize(indSize){
         _type = vertexType;
         // create buffer IDs
         glGenVertexArrays(1, &_VAO);
         glGenBuffers(1, &_VBO);
         glGenBuffers(1, &_EBO);
-        // bind IDs so that we can initialise them
-        glBindVertexArray(_VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, _VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
-        // set buffers' data
-        glBufferData(GL_ARRAY_BUFFER, vertSize, vertices, GL_STATIC_DRAW);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize, indices, GL_STATIC_DRAW);
+
+        refresh();
 
         switch (vertexType){
             case VertexEnum::VERTEX:         initAttribsDefault();
@@ -61,14 +57,25 @@ namespace slt
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColored), (void*)(offsetof(VertexColored, rgb)));
         glEnableVertexAttribArray(1);
     }
+
     void VertexArray::draw() {
         glBindVertexArray(_VAO);
         // assumes that the indices are unsigned ints
-        glDrawElements(GL_TRIANGLES, indSize/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, _indSize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
     }
 
     VertexEnum VertexArray::getType() {
         return _type;
+    }
+
+    void VertexArray::refresh() {
+        // bind IDs so that we can initialise them
+        glBindVertexArray(_VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
+        // set buffers' data
+        glBufferData(GL_ARRAY_BUFFER, (long long)_vertSize, _vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, (long long)_indSize, _indices, GL_STATIC_DRAW);
     }
 }
 

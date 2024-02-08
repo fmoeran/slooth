@@ -18,6 +18,7 @@ namespace slt
         void setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize);
         void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
 
+        void refreshVertices();
 
         void setWorldSpace(vec3 coords);
         void translate(vec3 vec);

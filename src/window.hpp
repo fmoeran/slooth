@@ -21,13 +21,22 @@ namespace slt {
 
         void display();
 
-        unsigned int getHeight() const;
+        [[nodiscard]] unsigned int getHeight() const;
 
-        unsigned int getWidth() const;
+        [[nodiscard]] unsigned int getWidth() const;
 
+        // returns the time since initialisation of the window
+        [[nodiscard]] double time() const;
+
+        // returns the time between initialisation and the last render of a frame
+        [[nodiscard]] double frameTime() const;
+
+        //  returns the time between the most recent frame render and the one before that
+        [[nodiscard]] double deltaTime() const;
 
     private:
         GLFWwindow *window;
         unsigned int height, width;
+        double _startupTime, _frameTime, _deltaTime;
     };
 }

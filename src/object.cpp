@@ -80,4 +80,8 @@ namespace slt
         setWorldSpace(getWorldSpace() + vec);
     }
 
+    void Object::refreshVertices() {
+        _vertices.refresh();
+    }
+
 }

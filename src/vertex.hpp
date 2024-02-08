@@ -34,11 +34,15 @@ namespace slt
 
         void draw();
 
+        void refresh();
+
         VertexEnum getType();
 
     private:
         unsigned int _VAO, _VBO, _EBO;
-        size_t vertSize, indSize;
+        void* _vertices;
+        void* _indices;
+        size_t _vertSize, _indSize;
         VertexEnum _type;
 
         void initAttribsDefault();
