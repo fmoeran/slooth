@@ -5,9 +5,21 @@
 
 
 #include "GLFW/glfw3.h"
-#include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
+
+bool gladLoaded = false;
+
+void loadGlad() {
+    if (gladLoaded) return;
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+    }else {
+        gladLoaded = true;
+    }
+
+}
 
 namespace slt {
 
@@ -42,15 +54,11 @@ namespace slt {
         glfwMakeContextCurrent(window);
         glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
-
-
         _startupTime = glfwGetTime();
-    }
 
-    void Window::processInput() {
-        glfwPollEvents();
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
+
+
+        loadGlad();
     }
 
     unsigned int Window::getHeight() const {
@@ -91,8 +99,17 @@ namespace slt {
         return _deltaTime;
     }
 
+    void Window::close(){
+        glfwSetWindowShouldClose(window, true);
+    }
+
+    void Window::loadInputs() {
+        glfwPollEvents();
+    }
+
+    bool Window::isPressed(Key key) {
+        return (glfwGetKey(window, (int)key) == GLFW_PRESS);
+    }
+
 
 }
-
-
-

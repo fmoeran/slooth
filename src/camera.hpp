@@ -22,12 +22,27 @@ namespace slt
 
         void drawObject(Object& obj);
 
+        // translates the camera's positions relative to global coordinates
         void translate(vec3 vec);
 
+        //translates the camera's position relative to its orientation (right, up, forward)
+        void relativeTranslate(vec3 vec);
+
+        vec3 getPosition();
+
+        // applies WASD _^ movements by default.
+        // note window.loadInputs() must be called before this to work
+        void pollDefaultMovementInputs(Window& window, float speed=1.0);
+
+
     private:
+        vec3 _position, _front, _up;
 
         glm::mat4 projection;
-        glm::mat4 view;
+
+        glm::mat4 getViewMatrix();
+
+        void setDefaults();
 
     };
 

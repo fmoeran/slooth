@@ -10,7 +10,7 @@
 #include <iostream>
 
 using namespace slt;
-void loadGlad();
+
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -39,8 +39,6 @@ int main()
 
     Camera camera(window, 45.0, {0, 0, -5});
 
-    loadGlad();
-
     Object obj;
     obj.setVertices(VertexEnum::VERTEX, vertices, sizeof(vertices), indices, sizeof(indices));
     obj.setShaders();
@@ -48,8 +46,16 @@ int main()
 
     while (!window.shouldClose())
     {
-        window.processInput();
+        window.loadInputs();
+        if (window.isPressed(Key::ESCAPE)) {
+            std::cout << "HI" << std::endl;
+            window.close();
+        }
+
+        camera.pollDefaultMovementInputs(window);
+
         window.fill(0, 0, 0, 1);
+
 
         camera.drawObject(obj);
 
@@ -61,9 +67,4 @@ int main()
 }
 
 
-void loadGlad() {
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-    }
-}
+
