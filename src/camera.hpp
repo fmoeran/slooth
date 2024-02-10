@@ -17,7 +17,7 @@ namespace slt
     public:
 
         explicit Camera(vec3 position={0, 0, 0}, float fovY=45, float aspectRatio=16.0/9.0, float lowerRangeBound=0.1, float upperRangeBound=100);
-        explicit Camera(Window& window, float fovY=45, vec3 position={0, 0, 0}, float lowerRangeBound=0.1, float upperRangeBound=100);
+        explicit Camera(float fovY=45, vec3 position={0, 0, 0}, float lowerRangeBound=0.1, float upperRangeBound=100);
 
 
         void drawObject(Object& obj);
@@ -32,7 +32,7 @@ namespace slt
 
         // applies WASD _^ movements by default.
         // note window.loadInputs() must be called before this to work
-        void pollDefaultMovementInputs(Window& window, float speed=1.0);
+        void pollDefaultMovementInputs(float speed=1.0);
 
 
     private:

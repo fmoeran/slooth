@@ -35,30 +35,30 @@ unsigned int indices[] = {
 
 int main()
 {
-    Window window(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
+    window::init(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
 
-    Camera camera(window, 45.0, {0, 0, -5});
+    Camera camera(45.0, {0, 0, -5});
 
     Object obj;
     obj.setVertices(VertexEnum::VERTEX, vertices, sizeof(vertices), indices, sizeof(indices));
     obj.setShaders();
 
 
-    while (!window.shouldClose())
+    while (!window::shouldClose())
     {
-        window.loadInputs();
-        if (window.isPressed(Key::ESCAPE)) {
+        window::loadInputs();
+        if (window::isPressed(Key::ESCAPE)) {
             std::cout << "HI" << std::endl;
-            window.close();
+            window::close();
         }
 
-        camera.pollDefaultMovementInputs(window);
+        camera.pollDefaultMovementInputs();
 
-        window.fill(0, 0, 0, 1);
+        window::fill(0, 0, 0, 1);
 
         camera.drawObject(obj);
 
-        window.display();
+        window::display();
     }
 
     glfwTerminate();

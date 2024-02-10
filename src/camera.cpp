@@ -19,9 +19,9 @@ namespace slt
         setDefaults();
     }
 
-    Camera::Camera(Window &window, float fovY, vec3 position, float lowerRangeBound, float upperRangeBound) {
+    Camera::Camera(float fovY, vec3 position, float lowerRangeBound, float upperRangeBound) {
         _position = position;
-        projection = glm::perspective(fovY, (float)window.getWidth()/(float)window.getHeight(), lowerRangeBound, upperRangeBound);
+        projection = glm::perspective(fovY, (float)window::getWidth()/(float)window::getHeight(), lowerRangeBound, upperRangeBound);
         setDefaults();
     }
 
@@ -52,8 +52,8 @@ namespace slt
     }
 
     void Camera::setDefaults() {
-        _up =       vec3(0, 1, 0);
-        _front =    vec3(0, 0, 1);
+        _up = vec3(0, 1, 0);
+        _front = vec3(0, 0, 1);
         _yaw = 0;
         _pitch = 0;
     }
@@ -70,11 +70,11 @@ namespace slt
 //        std::cout << vec.y << std::endl;
     }
 
-    void Camera::pollDefaultMovementInputs(Window& window, float speed){
+    void Camera::pollDefaultMovementInputs(float speed){
         vec3 translation(0);
-        float mul = speed * window.deltaTime();
-        translation += vec3(0, 0, 1) * (float)(window.isPressed(Key::W) - window.isPressed(Key::S)) * mul;
-        translation += vec3(1, 0, 0) * (float)(window.isPressed(Key::D) - window.isPressed(Key::A)) * mul;
+        float mul = speed * window::deltaTime();
+        translation += vec3(0, 0, 1) * (float)(window::isPressed(Key::W) - window::isPressed(Key::S)) * mul;
+        translation += vec3(1, 0, 0) * (float)(window::isPressed(Key::D) - window::isPressed(Key::A)) * mul;
         relativeTranslate(translation);
     }
 }

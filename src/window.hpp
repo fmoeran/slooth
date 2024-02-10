@@ -13,44 +13,32 @@
 #include "keys.hpp"
 
 
-namespace slt {
+namespace slt::window {
+    void init(unsigned int width, unsigned int height, char *title = (char*)"");
 
-    class Window {
-    public:
-        Window(unsigned int width, unsigned int height, char *title = (char *) "Slooth Window");
+    bool shouldClose();
 
-        bool shouldClose();
+    void loadInputs();
 
-        void loadInputs();
+    bool isPressed(Key key);
 
-        bool isPressed(Key key);
+    void fill(float r, float g, float b, float a);
 
-        void fill(float r, float g, float b, float a);
+    void display();
 
-        void display();
+    [[nodiscard]] unsigned int getHeight();
 
-        [[nodiscard]] unsigned int getHeight() const;
+    [[nodiscard]] unsigned int getWidth();
 
-        [[nodiscard]] unsigned int getWidth() const;
+    // returns the time since initialisation of the window
+    [[nodiscard]] double time();
 
-        // returns the time since initialisation of the window
-        [[nodiscard]] double time() const;
+    // returns the time between initialisation and the last render of a frame
+    [[nodiscard]] double frameTime();
 
-        // returns the time between initialisation and the last render of a frame
-        [[nodiscard]] double frameTime() const;
+    //  returns the time between the most recent frame render and the one before that
+    [[nodiscard]] double deltaTime();
 
-        //  returns the time between the most recent frame render and the one before that
-        [[nodiscard]] double deltaTime() const;
-
-        void close();
-
-    private:
-        GLFWwindow *window;
-        unsigned int width, height;
-        double _startupTime, _frameTime, _deltaTime;
-
-    };
-
+    void close();
 }
-
 

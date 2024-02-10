@@ -18,21 +18,10 @@ void loadGlad() {
     }else {
         gladLoaded = true;
     }
-
 }
 
-namespace slt {
-
-
-    void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
-        // make sure the viewport matches the new window dimensions; note that width and
-        // height will be significantly larger than specified on retina displays.
-        glViewport(0, 0, width, height);
-    }
-
-    Window::Window(unsigned int width, unsigned int height, char *title)
-            : width(width), height(height) {
-        glfwInit();
+void loadGLFW() {
+    glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -40,44 +29,63 @@ namespace slt {
 #if defined(__APPLE__)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+}
+
+namespace slt::window {
+    GLFWwindow *_windowPtr = nullptr;
+    unsigned int _width, _height;
+    double _startupTime, _frameTime, _deltaTime;
+
+    void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
+        // make sure the viewport matches the new window dimensions; note that width and
+        // height will be significantly larger than specified on retina displays.
+        glViewport(0, 0, width, height);
+    }
+
+    void init(unsigned int width, unsigned int height, char *title){
+        assert(_windowPtr == nullptr);
+        loadGLFW();
 
         // glfw window creation
         // --------------------
-        window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+        _windowPtr = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
-        if (window == nullptr) {
+        if (_windowPtr == nullptr) {
             std::cout << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
             throw;
         }
 
-        glfwMakeContextCurrent(window);
-        glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+        _width = width;
+        _height = height;
+
+        glfwMakeContextCurrent(_windowPtr);
+        glfwSetFramebufferSizeCallback(_windowPtr, framebufferSizeCallback);
 
         _startupTime = glfwGetTime();
 
         loadGlad();
     }
 
-    unsigned int Window::getHeight() const {
-        return height;
+    unsigned int getHeight() {
+        return _height;
     }
 
-    unsigned int Window::getWidth() const {
-        return width;
+    unsigned int getWidth() {
+        return _width;
     }
 
-    bool Window::shouldClose() {
-        return glfwWindowShouldClose(window);
+    bool shouldClose() {
+        return glfwWindowShouldClose(_windowPtr);
     }
 
-    void Window::fill(float r, float g, float b, float a) {
+    void fill(float r, float g, float b, float a) {
         glClearColor(r, g, b, a);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void Window::display() {
-        glfwSwapBuffers(window);
+    void display() {
+        glfwSwapBuffers(_windowPtr);
 
         // update time variables
         double t = time();
@@ -85,29 +93,29 @@ namespace slt {
         _frameTime = time();
     }
 
-    double Window::time() const {
+    double time() {
         return glfwGetTime() - _startupTime;
     }
 
-    double Window::frameTime() const{
+    double frameTime() {
         return _frameTime;
     }
 
-    double Window::deltaTime() const{
+    double deltaTime() {
         return _deltaTime;
     }
 
-    void Window::close(){
-        glfwSetWindowShouldClose(window, true);
+    void close() {
+        glfwSetWindowShouldClose(_windowPtr, true);
     }
 
-    void Window::loadInputs() {
+    void loadInputs() {
         glfwPollEvents();
     }
 
-    bool Window::isPressed(Key key) {
-        return (glfwGetKey(window, (int)key) == GLFW_PRESS);
+    bool isPressed(Key key) {
+        return (glfwGetKey(_windowPtr, (int) key) == GLFW_PRESS);
     }
 
 
-}
+} // namespace slt::window
