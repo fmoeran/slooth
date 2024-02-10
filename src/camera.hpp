@@ -37,6 +37,7 @@ namespace slt
 
     private:
         vec3 _position, _front, _up;
+        float _yaw, _pitch;
 
         glm::mat4 projection;
 

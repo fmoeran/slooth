@@ -174,12 +174,12 @@ namespace detail
 	//template<typename valType>
 	//GLM_FUNC_QUALIFIER qua<valType>::qua
 	//(
-	//	valType const& pitch,
-	//	valType const& yaw,
+	//	valType const& _pitch,
+	//	valType const& _yaw,
 	//	valType const& roll
 	//)
 	//{
-	//	vec<3, valType> eulerAngle(pitch * valType(0.5), yaw * valType(0.5), roll * valType(0.5));
+	//	vec<3, valType> eulerAngle(_pitch * valType(0.5), _yaw * valType(0.5), roll * valType(0.5));
 	//	vec<3, valType> c = glm::cos(eulerAngle * valType(0.5));
 	//	vec<3, valType> s = glm::sin(eulerAngle * valType(0.5));
 	//

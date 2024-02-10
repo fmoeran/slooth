@@ -56,7 +56,6 @@ int main()
 
         window.fill(0, 0, 0, 1);
 
-
         camera.drawObject(obj);
 
         window.display();

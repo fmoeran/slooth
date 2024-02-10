@@ -54,6 +54,8 @@ namespace slt
     void Camera::setDefaults() {
         _up =       vec3(0, 1, 0);
         _front =    vec3(0, 0, 1);
+        _yaw = 0;
+        _pitch = 0;
     }
 
     vec3 Camera::getPosition() {

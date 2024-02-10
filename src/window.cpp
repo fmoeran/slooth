@@ -56,8 +56,6 @@ namespace slt {
 
         _startupTime = glfwGetTime();
 
-
-
         loadGlad();
     }
 

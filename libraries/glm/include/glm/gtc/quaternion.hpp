@@ -40,7 +40,7 @@ namespace glm
 	/// @addtogroup gtc_quaternion
 	/// @{
 
-	/// Returns euler angles, pitch as x, yaw as y, roll as z.
+	/// Returns euler angles, _pitch as x, _yaw as y, roll as z.
 	/// The result is expressed in radians.
 	///
 	/// @tparam T Floating-point scalar types.
@@ -57,7 +57,7 @@ namespace glm
 	template<typename T, qualifier Q>
 	GLM_FUNC_DECL T roll(qua<T, Q> const& x);
 
-	/// Returns pitch value of euler angles expressed in radians.
+	/// Returns _pitch value of euler angles expressed in radians.
 	///
 	/// @tparam T Floating-point scalar types.
 	///
@@ -65,7 +65,7 @@ namespace glm
 	template<typename T, qualifier Q>
 	GLM_FUNC_DECL T pitch(qua<T, Q> const& x);
 
-	/// Returns yaw value of euler angles expressed in radians.
+	/// Returns _yaw value of euler angles expressed in radians.
 	///
 	/// @tparam T Floating-point scalar types.
 	///
