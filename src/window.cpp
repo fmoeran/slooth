@@ -8,6 +8,7 @@
 #include "GLFW/glfw3.h"
 
 #include <iostream>
+#include <cstring>
 
 bool gladLoaded = false;
 
@@ -38,6 +39,7 @@ namespace slt::window {
     double _startupTime, _frameTime, _deltaTime;
     vec2 _mousePos, _frameMousePos, _deltaMousePos;
     bool _isFirstFrame, _isMouseLocked, _ignoreMouseMovement;
+    bool _keyPressed[(size_t)Key::NUM_KEYS];
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
         // make sure the viewport matches the new window dimensions; note that width and
@@ -47,6 +49,10 @@ namespace slt::window {
 
     void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
         _mousePos = {xpos, ypos};
+    }
+
+    void clearPressedLogs() {
+        std::memset(_keyPressed, 0, sizeof(_keyPressed));
     }
 
     void init(unsigned int width, unsigned int height, char *title){
@@ -72,6 +78,8 @@ namespace slt::window {
 
         _isFirstFrame = true;
         _ignoreMouseMovement = true;
+
+        clearPressedLogs();
 
         loadGlad();
     }
@@ -133,10 +141,20 @@ namespace slt::window {
         glfwPollEvents();
     }
 
-    bool isPressed(Key key) {
+    bool isHeld(Key key) {
         return (glfwGetKey(_windowPtr, (int) key) == GLFW_PRESS);
     }
 
+    bool isPressed(Key key) {
+        auto ind = (size_t)key;
+        bool ret = false;
+        bool held = isHeld(key);
+        if (!_keyPressed[ind] && held) {
+            ret = true;
+        }
+        _keyPressed[ind] = held;
+        return ret;
+    }
 
     void display() {
         glfwSwapBuffers(_windowPtr);
@@ -163,6 +181,10 @@ namespace slt::window {
 
     void toggleMouseLocked() {
         setMouseLocked(!_isMouseLocked);
+    }
+
+    bool mouseLocked() {
+        return _isMouseLocked;
     }
 
 

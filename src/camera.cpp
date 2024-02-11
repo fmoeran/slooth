@@ -72,19 +72,20 @@ namespace slt
         // keyboard movement
         vec3 relative(0), absolute(0);
         float mul = speed * (float)window::deltaTime();
-        relative += vec3(0, 0, 1) * (float)(window::isPressed(Key::W) - window::isPressed(Key::S)) * mul;
-        relative += vec3(1, 0, 0) * (float)(window::isPressed(Key::D) - window::isPressed(Key::A)) * mul;
+        relative += vec3(0, 0, 1) * (float)(window::isHeld(Key::W) - window::isHeld(Key::S)) * mul;
+        relative += vec3(1, 0, 0) * (float)(window::isHeld(Key::D) - window::isHeld(Key::A)) * mul;
         relativeTranslate(relative);
 
-        absolute += vec3(0, 1, 0) * (float)(window::isPressed(Key::SPACE) - window::isPressed(Key::LEFT_SHIFT)) *mul;
+        absolute += vec3(0, 1, 0) * (float)(window::isHeld(Key::SPACE) - window::isHeld(Key::LEFT_SHIFT)) * mul;
         translate(absolute);
 
         // mouse movement
-        vec2 offset = window::getDeltaMousePos();
-        _yaw += offset.x * sensitivity;
-        _pitch += offset.y * sensitivity;
-        updateVectors();
-
+        if (window::mouseLocked()) {
+            vec2 offset = window::getDeltaMousePos();
+            _yaw += offset.x * sensitivity;
+            _pitch += offset.y * sensitivity;
+            updateVectors();
+        }
     }
 
     void Camera::updateVectors() {
