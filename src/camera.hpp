@@ -32,11 +32,11 @@ namespace slt
 
         // applies WASD _^ movements by default.
         // note window.loadInputs() must be called before this to work
-        void pollDefaultMovementInputs(float speed=1.0);
+        void pollDefaultMovementInputs(float speed=1.0, float sensitivity=0.2);
 
 
     private:
-        vec3 _position, _front, _up;
+        vec3 _position, _front, _up, _right;
         float _yaw, _pitch;
 
         glm::mat4 projection;
@@ -44,6 +44,8 @@ namespace slt
         glm::mat4 getViewMatrix();
 
         void setDefaults();
+
+        void updateVectors();
 
     };
 

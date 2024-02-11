@@ -10,6 +10,7 @@
 namespace slt
 {
     using vec3 = glm::vec3;
+    using vec2 = glm::vec2;
     enum class VertexEnum {
         VERTEX, VERTEX_COLORED
     };

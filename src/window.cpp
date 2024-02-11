@@ -2,6 +2,7 @@
 // Created by felix on 02/09/2023.
 //
 #include "window.hpp"
+#include "vertex.hpp"
 
 
 #include "GLFW/glfw3.h"
@@ -35,6 +36,8 @@ namespace slt::window {
     GLFWwindow *_windowPtr = nullptr;
     unsigned int _width, _height;
     double _startupTime, _frameTime, _deltaTime;
+    vec2 _mousePos, _frameMousePos, _deltaMousePos;
+    bool _isFirstFrame, _isMouseLocked, _ignoreMouseMovement;
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
         // make sure the viewport matches the new window dimensions; note that width and
@@ -42,12 +45,15 @@ namespace slt::window {
         glViewport(0, 0, width, height);
     }
 
+    void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+        std::cout << xpos << std::endl;
+        _mousePos = {xpos, ypos};
+    }
+
     void init(unsigned int width, unsigned int height, char *title){
         assert(_windowPtr == nullptr);
         loadGLFW();
 
-        // glfw window creation
-        // --------------------
         _windowPtr = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
         if (_windowPtr == nullptr) {
@@ -61,8 +67,11 @@ namespace slt::window {
 
         glfwMakeContextCurrent(_windowPtr);
         glfwSetFramebufferSizeCallback(_windowPtr, framebufferSizeCallback);
+        glfwSetCursorPosCallback(_windowPtr, mouseCallback);
 
         _startupTime = glfwGetTime();
+
+        _isFirstFrame = true;
 
         loadGlad();
     }
@@ -84,10 +93,21 @@ namespace slt::window {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void display() {
-        glfwSwapBuffers(_windowPtr);
+    void updateMouseVariables() {
+        vec2 newPos = _mousePos;
+        if (_isFirstFrame) {
+            _deltaMousePos = vec2(0);
+        }else {
+            _deltaMousePos = _frameMousePos - newPos;
+        }
+        _frameMousePos = newPos;
+    }
 
-        // update time variables
+    vec2 getMousePos() {
+        return _frameMousePos;
+    }
+
+    void updateTimeVariables() {
         double t = time();
         _deltaTime = t - _frameTime;
         _frameTime = time();
@@ -115,6 +135,34 @@ namespace slt::window {
 
     bool isPressed(Key key) {
         return (glfwGetKey(_windowPtr, (int) key) == GLFW_PRESS);
+    }
+
+
+    void display() {
+        glfwSwapBuffers(_windowPtr);
+
+        updateTimeVariables();
+        updateMouseVariables();
+
+        _isFirstFrame = false;
+        _ignoreMouseMovement = false;
+    }
+
+    vec2 getDeltaMousePos() {
+        return _deltaMousePos;
+    }
+
+    void setMouseLocked(bool shouldLock) {
+        if (shouldLock != _isMouseLocked) {
+            _ignoreMouseMovement = true; // prevent any snapping of camera
+        }
+        int value = shouldLock? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL;
+        glfwSetInputMode(_windowPtr, GLFW_CURSOR, value);
+        _isMouseLocked = shouldLock;
+    }
+
+    void toggleMouseLocked() {
+        setMouseLocked(!_isMouseLocked);
     }
 
 

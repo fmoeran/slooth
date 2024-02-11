@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 
 #include "keys.hpp"
+#include "vertex.hpp"
 
 
 namespace slt::window {
@@ -38,6 +39,13 @@ namespace slt::window {
 
     //  returns the time between the most recent frame render and the one before that
     [[nodiscard]] double deltaTime();
+
+    vec2 getMousePos();
+
+    vec2 getDeltaMousePos();
+
+    void setMouseLocked(bool shouldLock);
+    void toggleMouseLocked();
 
     void close();
 }

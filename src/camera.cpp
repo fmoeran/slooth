@@ -45,17 +45,17 @@ namespace slt
     }
 
     glm::mat4 Camera::getViewMatrix() {
-        glm::mat4 view(1);
-        view = glm::translate(view, _position);
 
-        return view;
+        return glm::lookAt(_position, _position + _front, _up);
     }
 
     void Camera::setDefaults() {
         _up = vec3(0, 1, 0);
         _front = vec3(0, 0, 1);
+        _right = vec3(1, 0, 0);
         _yaw = 0;
         _pitch = 0;
+        updateVectors();
     }
 
     vec3 Camera::getPosition() {
@@ -63,19 +63,38 @@ namespace slt
     }
 
     void Camera::relativeTranslate(vec3 vec) {
-        _position -= glm::normalize(glm::cross(_up, _front)) * vec.x;
+        _position += vec.x * _right;
         _position += vec.y * _up;
         _position += vec.z * _front;
-//        std::cout << _position.y << std::endl;
-//        std::cout << vec.y << std::endl;
     }
 
-    void Camera::pollDefaultMovementInputs(float speed){
-        vec3 translation(0);
-        float mul = speed * window::deltaTime();
-        translation += vec3(0, 0, 1) * (float)(window::isPressed(Key::W) - window::isPressed(Key::S)) * mul;
-        translation += vec3(1, 0, 0) * (float)(window::isPressed(Key::D) - window::isPressed(Key::A)) * mul;
-        relativeTranslate(translation);
+    void Camera::pollDefaultMovementInputs(float speed, float sensitivity){
+        // keyboard movement
+        vec3 relative(0), absolute(0);
+        float mul = speed * (float)window::deltaTime();
+        relative += vec3(0, 0, 1) * (float)(window::isPressed(Key::W) - window::isPressed(Key::S)) * mul;
+        relative += vec3(1, 0, 0) * (float)(window::isPressed(Key::D) - window::isPressed(Key::A)) * mul;
+        relativeTranslate(relative);
+
+        absolute += vec3(0, 1, 0) * (float)(window::isPressed(Key::SPACE) - window::isPressed(Key::LEFT_SHIFT)) *mul;
+        translate(absolute);
+
+        // mouse movement
+        vec2 offset = window::getDeltaMousePos();
+        _yaw += offset.x * sensitivity;
+        _pitch += offset.y * sensitivity;
+        updateVectors();
+
+    }
+
+    void Camera::updateVectors() {
+        _front.x = (float)sin(glm::radians(_yaw)) * (float)cos(glm::radians(_pitch));
+        _front.y = (float)sin(glm::radians(_pitch));
+        _front.z = (float)cos(glm::radians(_yaw)) * (float)cos(glm::radians(_pitch));
+
+        _front = glm::normalize(_front);
+        _right = glm::normalize(glm::cross(_front, vec3(0, 1, 0)));
+        _up    = glm::normalize(glm::cross(_right, _front));
     }
 }
 

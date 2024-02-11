@@ -13,20 +13,20 @@ using namespace slt;
 
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1500;
+const unsigned int SCR_HEIGHT = 900;
 
-//VertexColored vertices[] = {
-//        VertexColored(0.5, -0.5, 0, 1, 0, 0),
-//        VertexColored(0.0, 0.5, 0, 0, 1, 0),
-//        VertexColored(-0.5, -0.5, 0, 0, 0, 1)
-//};
-
-Vertex vertices[] = {
-        Vertex(0.5, -0.5, 0),
-        Vertex(0.0, 0.5, 0),
-        Vertex(-0.5, -0.5, 0)
+VertexColored vertices[] = {
+        VertexColored(0.5, -0.5, 0, 1, 0, 0),
+        VertexColored(0.0, 0.5, 0, 0, 1, 0),
+        VertexColored(-0.5, -0.5, 0, 0, 0, 1)
 };
+//
+//Vertex vertices[] = {
+//        Vertex(0.5, -0.5, 0),
+//        Vertex(0.0, 0.5, 0),
+//        Vertex(-0.5, -0.5, 0)
+//};
 
 unsigned int indices[] = {
         0, 1, 2,
@@ -40,18 +40,17 @@ int main()
     Camera camera(45.0, {0, 0, -5});
 
     Object obj;
-    obj.setVertices(VertexEnum::VERTEX, vertices, sizeof(vertices), indices, sizeof(indices));
+    obj.setVertices(VertexEnum::VERTEX_COLORED, vertices, sizeof(vertices), indices, sizeof(indices));
     obj.setShaders();
 
+    window::setMouseLocked(true);
 
     while (!window::shouldClose())
     {
         window::loadInputs();
         if (window::isPressed(Key::ESCAPE)) {
-            std::cout << "HI" << std::endl;
-            window::close();
+            window::toggleMouseLocked();
         }
-
         camera.pollDefaultMovementInputs();
 
         window::fill(0, 0, 0, 1);
