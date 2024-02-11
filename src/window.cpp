@@ -46,7 +46,6 @@ namespace slt::window {
     }
 
     void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
-        std::cout << xpos << std::endl;
         _mousePos = {xpos, ypos};
     }
 
@@ -72,6 +71,7 @@ namespace slt::window {
         _startupTime = glfwGetTime();
 
         _isFirstFrame = true;
+        _ignoreMouseMovement = true;
 
         loadGlad();
     }
@@ -95,7 +95,7 @@ namespace slt::window {
 
     void updateMouseVariables() {
         vec2 newPos = _mousePos;
-        if (_isFirstFrame) {
+        if (_ignoreMouseMovement) {
             _deltaMousePos = vec2(0);
         }else {
             _deltaMousePos = _frameMousePos - newPos;
