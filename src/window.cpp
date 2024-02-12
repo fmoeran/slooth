@@ -38,7 +38,7 @@ namespace slt::window {
     unsigned int _width, _height;
     double _startupTime, _frameTime, _deltaTime;
     vec2 _mousePos, _frameMousePos, _deltaMousePos;
-    bool _isFirstFrame, _isMouseLocked, _ignoreMouseMovement;
+    bool _isFirstFrame, _isMouseLocked, _ignoreNextMouseMovement, _mouseMovedThisFrame;
     bool _keyPressed[(size_t)Key::NUM_KEYS];
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
@@ -49,6 +49,7 @@ namespace slt::window {
 
     void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
         _mousePos = {xpos, ypos};
+        _mouseMovedThisFrame = true;
     }
 
     void clearPressedLogs() {
@@ -77,7 +78,7 @@ namespace slt::window {
         _startupTime = glfwGetTime();
 
         _isFirstFrame = true;
-        _ignoreMouseMovement = true;
+        _ignoreNextMouseMovement = true;
 
         clearPressedLogs();
 
@@ -103,12 +104,16 @@ namespace slt::window {
 
     void updateMouseVariables() {
         vec2 newPos = _mousePos;
-        if (_ignoreMouseMovement) {
+        if (_ignoreNextMouseMovement) {
             _deltaMousePos = vec2(0);
+            if (_mouseMovedThisFrame) {
+                _ignoreNextMouseMovement = false;
+            }
         }else {
             _deltaMousePos = _frameMousePos - newPos;
         }
         _frameMousePos = newPos;
+        _mouseMovedThisFrame = false; //set to true in mouseCallback
     }
 
     vec2 getMousePos() {
@@ -163,7 +168,6 @@ namespace slt::window {
         updateMouseVariables();
 
         _isFirstFrame = false;
-        _ignoreMouseMovement = false;
     }
 
     vec2 getDeltaMousePos() {
@@ -172,7 +176,8 @@ namespace slt::window {
 
     void setMouseLocked(bool shouldLock) {
         if (shouldLock != _isMouseLocked) {
-            _ignoreMouseMovement = true; // prevent any snapping of camera
+            _ignoreNextMouseMovement = true; // prevent any snapping of camera
+            glfwSetCursorPos(_windowPtr, getWidth()/2, getHeight()/2);
         }
         int value = shouldLock? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL;
         glfwSetInputMode(_windowPtr, GLFW_CURSOR, value);

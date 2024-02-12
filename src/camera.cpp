@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+#include <algorithm>
 
 namespace slt
 {
@@ -84,6 +85,9 @@ namespace slt
             vec2 offset = window::getDeltaMousePos();
             _yaw += offset.x * sensitivity;
             _pitch += offset.y * sensitivity;
+
+            _pitch = std::clamp(_pitch, -89.0f, 89.0f);
+
             updateVectors();
         }
     }

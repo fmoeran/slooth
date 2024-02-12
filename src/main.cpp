@@ -13,8 +13,8 @@ using namespace slt;
 
 
 // settings
-const unsigned int SCR_WIDTH = 1500;
-const unsigned int SCR_HEIGHT = 900;
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 600;
 
 VertexColored vertices[] = {
         VertexColored(0.5, -0.5, 0, 1, 0, 0),
