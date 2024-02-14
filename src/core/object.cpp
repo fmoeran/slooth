@@ -11,12 +11,12 @@ namespace slt
     namespace files
     {
         std::map<VertexEnum, std::string> vertex {
-            {VertexEnum::VERTEX, "../src/shaders/default.vert" },
-            {VertexEnum::VERTEX_COLORED, "../src/shaders/vertexColoured.vert"}
+            {VertexEnum::VERTEX, "../src/core/shaders/default.vert" },
+            {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.vert"}
         };
         std::map<VertexEnum, std::string> fragment {
-            {VertexEnum::VERTEX, "../src/shaders/default.frag" },
-            {VertexEnum::VERTEX_COLORED, "../src/shaders/vertexColoured.frag"}
+            {VertexEnum::VERTEX, "../src/core/shaders/default.frag" },
+            {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.frag"}
         };
     }
 
@@ -36,7 +36,7 @@ namespace slt
         _program.buildProgram();
     }
 
-    void Object::draw() {
+    void Object::draw(){
         _program.use();
         _vertices.draw();
     }
@@ -47,7 +47,7 @@ namespace slt
         _scale = vec3(1);
     }
 
-    glm::mat4 Object::getTransformMatrix() {
+    glm::mat4 Object::getTransformMatrix() const{
         glm::mat4 matrix(1);
         //float rotationMag = _rotation.
         //matrix = glm::rotate(matrix, _rotation);

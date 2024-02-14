@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 #include <cstddef>
 namespace slt
@@ -40,10 +40,10 @@ namespace slt
         VertexEnum getType();
 
     private:
-        unsigned int _VAO, _VBO, _EBO;
-        void* _vertices;
-        void* _indices;
-        size_t _vertSize, _indSize;
+        unsigned int _VAO{}, _VBO{}, _EBO{};
+        void* _vertices{};
+        void* _indices{};
+        size_t _vertSize{}, _indSize{};
         VertexEnum _type;
 
         void initAttribsDefault();

@@ -2,8 +2,8 @@
 // Created by Felix Moeran on 21/08/2023.
 //
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 #include "shader.hpp"
 #include <fstream>

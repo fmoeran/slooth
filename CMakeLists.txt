@@ -3,7 +3,7 @@ project(slooth)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB SOURCE_FILES src/*.hpp src/*.cpp libraries/glad/src/glad.c)
+file(GLOB SOURCE_FILES src/main.cpp src/core/*.hpp src/core/*.cpp libraries/glad/src/glad.c)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 

@@ -7,8 +7,8 @@
 #include "vertex.hpp"
 #include "shader.hpp"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 namespace slt
 {
  class Object {
@@ -28,7 +28,7 @@ namespace slt
         void setScale(vec3 scales);
         vec3 getScale();
 
-    private:
+    protected:
         VertexArray _vertices;
         ShaderProgram _program;
         vec3 _worldSpace{};
@@ -37,7 +37,7 @@ namespace slt
 
         void setDefaultValues();
 
-        glm::mat4 getTransformMatrix();
+        [[nodiscard]] glm::mat4 getTransformMatrix() const;
 
          // draws the object to the current un-rendered screen
          // should only be called by Camera::drawObject

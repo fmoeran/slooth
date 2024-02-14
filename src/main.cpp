@@ -1,11 +1,12 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 
-#include "window.hpp"
-#include "camera.hpp"
-#include "vertex.hpp"
-#include "object.hpp"
+#include "core/window.hpp"
+#include "core/camera.hpp"
+#include "core/vertex.hpp"
+#include "core/object.hpp"
+#include "objects/plane.hpp"
 
 #include <iostream>
 

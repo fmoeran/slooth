@@ -3,7 +3,7 @@
 //
 
 #include "vertex.hpp"
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include<iostream>
 
 namespace slt
@@ -38,7 +38,6 @@ namespace slt
         glGenBuffers(1, &_EBO);
 
         refresh();
-
 
         switch (vertexType){
             case VertexEnum::VERTEX:         {initAttribsDefault();break;}
