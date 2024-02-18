@@ -5,9 +5,9 @@ but with the capability to design specific renderable objects and render pipelin
 
 <!--
 ## Program Hierarchy
--->
-![](images/Hierarchy.png)
 
+![](images/Hierarchy.png)
+-->
 
 ## Example Program
 
