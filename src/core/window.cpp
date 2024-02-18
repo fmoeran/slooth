@@ -83,6 +83,9 @@ namespace slt::window {
         clearPressedLogs();
 
         loadGlad();
+
+
+        glEnable(GL_DEPTH_TEST);
     }
 
     unsigned int getHeight() {
@@ -99,7 +102,7 @@ namespace slt::window {
 
     void fill(float r, float g, float b, float a) {
         glClearColor(r, g, b, a);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void updateMouseVariables() {

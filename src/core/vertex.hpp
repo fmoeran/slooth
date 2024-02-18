@@ -19,6 +19,7 @@ namespace slt
         glm::vec3 position;
         Vertex(float x, float y, float z);
         Vertex(vec3 pos);
+        Vertex();
     };
 
     struct VertexColored {

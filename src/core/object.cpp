@@ -37,7 +37,6 @@ namespace slt
     }
 
     void Object::draw(){
-        _program.use();
         _vertices.draw();
     }
 

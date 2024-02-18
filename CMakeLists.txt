@@ -3,14 +3,18 @@ project(slooth)
 
 set(CMAKE_CXX_STANDARD 17)
 
+
+file(GLOB CORE_FILES src/core/*.hpp src/core/*.cpp)
+file(GLOB GLAD_FILES libraries/glad/src/glad.c)
+file(GLOB OBJECT_FILES src/objects/*.hpp src/objects/*.cpp)
 file(GLOB SOURCE_FILES src/main.cpp src/core/*.hpp src/core/*.cpp libraries/glad/src/glad.c)
+
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-
-add_executable(slooth ${SOURCE_FILES})
+add_executable(slooth src/main.cpp ${CORE_FILES} ${OBJECT_FILES} ${GLAD_FILES})
 
 #glad
 

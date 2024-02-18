@@ -41,6 +41,7 @@ namespace slt
 
          // draws the object to the current un-rendered screen
          // should only be called by Camera::drawObject
+         // Object._program.use() must be called before this with the uniforms set
          void draw();
 
         friend class Camera;

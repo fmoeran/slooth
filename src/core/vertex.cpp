@@ -14,6 +14,8 @@ namespace slt
 
     Vertex::Vertex(vec3 pos) : position(pos) {}
 
+    Vertex::Vertex() : position(0) {}
+
     VertexColored::VertexColored(float x, float y, float z, float r, float g, float b) {
         position = {x, y, z};
         rgb = {r, g, b};

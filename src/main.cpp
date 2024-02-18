@@ -17,34 +17,15 @@ using namespace slt;
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 600;
 
-VertexColored vertices[] = {
-        VertexColored(0.5, -0.5, 0, 1, 0, 0),
-        VertexColored(0.0, 0.5, 0, 0, 1, 0),
-        VertexColored(-0.5, -0.5, 0, 0, 0, 1)
-};
-//
-//Vertex vertices[] = {
-//        Vertex(0.5, -0.5, 0),
-//        Vertex(0.0, 0.5, 0),
-//        Vertex(-0.5, -0.5, 0)
-//};
-
-unsigned int indices[] = {
-        0, 1, 2,
-};
-
-
 int main()
 {
     window::init(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
 
-    Camera camera(45.0, {0, 0, -5});
-
-    Object obj;
-    obj.setVertices(VertexEnum::VERTEX_COLORED, vertices, sizeof(vertices), indices, sizeof(indices));
-    obj.setShaders();
+    Camera camera(45.0, {0, 1, -10});
 
     window::setMouseLocked(true);
+
+    Plane plane(10, 100, 10, 10);
 
     while (!window::shouldClose())
     {
@@ -56,7 +37,7 @@ int main()
 
         window::fill(0, 0, 0, 1);
 
-        camera.drawObject(obj);
+        camera.drawObject(plane);
 
         window::display();
     }

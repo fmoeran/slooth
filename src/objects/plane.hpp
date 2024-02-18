@@ -7,16 +7,23 @@
 
 #include "../core/object.hpp"
 
+
+#include <memory>
+
 namespace slt
 {
     class Plane : public Object {
     public:
-        Plane(vec3 position, float width, float height, unsigned int numQuadsX, unsigned int numQuadsY);
-
-
-//        Plane(vec3 position, float width, float height, unsigned int numQuadsX, unsigned int numQuadsY, vec3 forward, vec3 right);
+        Plane(float width, float length, unsigned int numVertsX, unsigned int numVertsZ);
     private:
+        float _width, _length;
+        unsigned int _numVertsX, _numVertsZ;
+        size_t _numVerts, _numIndices;
+        std::unique_ptr<Vertex[]> _vertices;
+        std::unique_ptr<unsigned int[]> _indices;
 
+        // initialises _vertices and _indices arrays and calls Object::setVertices()
+        void initVertices();
     };
 
 }

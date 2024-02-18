@@ -28,6 +28,7 @@ namespace slt
 
     void Camera::drawObject(Object& obj) {
         // set the matrix uniform variables
+        obj._program.use();
         int viewLocation = obj._program.getUniformLocation((char*)"uView");
         int projectionLocation = obj._program.getUniformLocation((char*)"uProjection");
         int modelLocation = obj._program.getUniformLocation((char*)"uModel");
