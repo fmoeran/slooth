@@ -1,19 +1,9 @@
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-
-
 #include "core/window.hpp"
 #include "core/camera.hpp"
-#include "core/vertex.hpp"
-#include "core/object.hpp"
 #include "objects/plane.hpp"
-
-#include <iostream>
 
 using namespace slt;
 
-
-// settings
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -29,12 +19,16 @@ int main()
 
     while (!window::shouldClose())
     {
+        // Input checking to unlock the cursor
         window::loadInputs();
         if (window::isPressed(Key::ESCAPE)) {
             window::toggleMouseLocked();
         }
+
+        // Camera movement
         camera.pollDefaultMovementInputs();
 
+        // Displaying object
         window::fill(0, 0, 0, 1);
 
         camera.drawObject(plane);
@@ -42,9 +36,5 @@ int main()
         window::display();
     }
 
-    glfwTerminate();
-    return 0;
+    window::terminate();
 }
-
-
-

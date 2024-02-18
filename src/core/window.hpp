@@ -62,5 +62,7 @@ namespace slt::window {
     double getFPS();
 
     void close();
+
+    void terminate();
 }
 

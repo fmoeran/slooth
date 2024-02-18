@@ -146,6 +146,10 @@ namespace slt::window {
         glfwSetWindowShouldClose(_windowPtr, true);
     }
 
+    void terminate() {
+        glfwTerminate();
+    }
+
     void loadInputs() {
         glfwPollEvents();
     }
