@@ -23,9 +23,9 @@ int main()
 
     Camera camera(45.0, {0, 1, -10});
 
-    window::setMouseLocked(true);
+    Plane plane(10, 10, 1000, 1000);
 
-    Plane plane(10, 100, 10, 10);
+    window::setMouseLocked(true);
 
     while (!window::shouldClose())
     {

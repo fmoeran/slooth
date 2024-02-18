@@ -54,6 +54,13 @@ namespace slt::window {
     void toggleMouseLocked();
     bool mouseLocked();
 
+    void setWireframe(bool displayWireframe);
+    void toggleWireframe();
+    bool wireFrame();
+
+    void capFPS(bool shouldCap);
+    double getFPS();
+
     void close();
 }
 

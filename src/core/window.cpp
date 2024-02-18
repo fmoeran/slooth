@@ -40,6 +40,7 @@ namespace slt::window {
     vec2 _mousePos, _frameMousePos, _deltaMousePos;
     bool _isFirstFrame, _isMouseLocked, _ignoreNextMouseMovement, _mouseMovedThisFrame;
     bool _keyPressed[(size_t)Key::NUM_KEYS];
+    bool _isWireframe;
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
         // make sure the viewport matches the new window dimensions; note that width and
@@ -193,6 +194,28 @@ namespace slt::window {
 
     bool mouseLocked() {
         return _isMouseLocked;
+    }
+
+    void setWireframe(bool displayWireframe) {
+        int value = displayWireframe ? GL_LINE : GL_FILL;
+        glPolygonMode(GL_FRONT_AND_BACK, value);
+        _isWireframe = displayWireframe;
+    }
+
+    void toggleWireframe() {
+        setWireframe(!_isWireframe);
+    }
+
+    bool wireFrame() {
+        return _isWireframe;
+    }
+
+    double getFPS() {
+        return 1.0 / deltaTime();
+    }
+
+    void capFPS(bool shouldCap) {
+        glfwSwapInterval((int)shouldCap);
     }
 
 
