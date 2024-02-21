@@ -16,7 +16,7 @@ namespace slt
 {
 
     Shader::Shader(std::string fileLocation, ShaderType shaderType)
-            : _type(shaderType), _location(std::move(fileLocation)){
+            :_type(shaderType), _location(std::move(fileLocation)){
         load();
         compile();
     }

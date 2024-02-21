@@ -30,11 +30,11 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
-add_subdirectory(libraries/glfw)
+add_subdirectory(vendor/glfw)
 
 target_link_libraries(slooth glfw)
 
-target_include_directories(slooth PRIVATE libraries/glfw/include)
+target_include_directories(slooth PRIVATE vendor/glfw/include)
 
 #opengl
 
@@ -46,5 +46,5 @@ target_link_libraries(slooth OpenGL::GL)
 
 #glm
 
-target_include_directories(slooth PRIVATE libraries/glm/include)
+target_include_directories(slooth PRIVATE vendor/glm)
 
