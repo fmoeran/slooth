@@ -28,7 +28,7 @@ namespace slt
 
     void Camera::drawObject(Object& obj) {
         // set the matrix uniform variables
-        obj._program.use();
+        obj.useShaderProgram();
         int viewLocation = obj._program.getUniformLocation((char*)"uView");
         int projectionLocation = obj._program.getUniformLocation((char*)"uProjection");
         int modelLocation = obj._program.getUniformLocation((char*)"uModel");
@@ -39,7 +39,7 @@ namespace slt
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(obj.getTransformMatrix()));
 
-        obj.draw();
+        obj._draw();
     }
 
     void Camera::translate(vec3 vec) {

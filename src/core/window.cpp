@@ -125,12 +125,12 @@ namespace slt::window {
     }
 
     void updateTimeVariables() {
-        double t = time();
+        double t = trueTime();
         _deltaTime = t - _frameTime;
-        _frameTime = time();
+        _frameTime = trueTime();
     }
 
-    double time() {
+    double trueTime() {
         return glfwGetTime() - _startupTime;
     }
 

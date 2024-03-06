@@ -16,15 +16,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 add_executable(slooth src/main.cpp ${CORE_FILES} ${OBJECT_FILES} ${GLAD_FILES})
 
-#glad
-
+# glad
 
 target_include_directories(slooth PRIVATE libraries/glad/include)
 
-
 # glfw
-
-
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -36,15 +32,13 @@ target_link_libraries(slooth glfw)
 
 target_include_directories(slooth PRIVATE vendor/glfw/include)
 
-#opengl
+# opengl
 
 find_package(OpenGL REQUIRED)
 
 target_link_libraries(slooth OpenGL::GL)
 
-
-
-#glm
+# glm
 
 target_include_directories(slooth PRIVATE vendor/glm)
 

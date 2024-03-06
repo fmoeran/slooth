@@ -49,8 +49,6 @@ namespace slt
     private:
         unsigned int _ID;
         std::map<std::string, int> _uniformLocations;
-
-        void setDefaultUniforms() const;
     };
 }
 

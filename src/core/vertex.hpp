@@ -9,19 +9,27 @@
 #include <cstddef>
 namespace slt
 {
+    using vec4 = glm::vec4;
     using vec3 = glm::vec3;
     using vec2 = glm::vec2;
+
     enum class VertexEnum {
-        VERTEX, VERTEX_COLORED
+        VERTEX_PLAIN,
+        VERTEX_COLORED,
+        VERTEX_TEXTURE,
+        VERTEX_DEFAULT
     };
 
-    struct Vertex {
-        glm::vec3 position;
-        Vertex(float x, float y, float z);
-        Vertex(vec3 pos);
-        Vertex();
+
+    // A vertex that only stores 3d coordinates
+    struct VertexPlain {
+        vec3 position;
+        VertexPlain(float x, float y, float z);
+        VertexPlain(vec3 pos);
+        VertexPlain();
     };
 
+    // Vertex that stores position and colour components
     struct VertexColored {
         vec3 position;
         vec3 rgb;
@@ -29,6 +37,22 @@ namespace slt
         VertexColored(vec3 pos, vec3 col);
     };
 
+    // Vertex that stores position and texture coordinates
+    struct VertexTexture {
+        vec3 position;
+        vec2 uvCoords;
+        VertexTexture(float x, float y, float z, float u, float v);
+        VertexTexture(vec3 pos, vec2 uv);
+    };
+
+    // Vertex that stores position, texture coordinates, and normal vector
+    struct VertexDefault {
+        vec3 position;
+        vec2 uvCoords;
+        vec3 normal;
+        VertexDefault(float x, float y, float z, float u, float v, float nx, float ny, float nz);
+        VertexDefault(vec3 pos, vec2 uv, vec3 norm);
+    };
 
     struct VertexArray {
         VertexArray();
@@ -47,8 +71,10 @@ namespace slt
         size_t _vertSize{}, _indSize{};
         VertexEnum _type;
 
-        void initAttribsDefault();
+        void initAttribsPlain();
         void initAttribsColored();
+        void initAttribsTexture();
+        void initAttribsDefault();
     };
 }
 

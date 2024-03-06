@@ -16,7 +16,7 @@ namespace slt
 {
 
     Shader::Shader(std::string fileLocation, ShaderType shaderType)
-            :_type(shaderType), _location(std::move(fileLocation)){
+            :_location(std::move(fileLocation)), _type(shaderType), _shader(0){
         load();
         compile();
     }
@@ -81,16 +81,12 @@ namespace slt
 
     void ShaderProgram::use(){
         glUseProgram(_ID);
-        setDefaultUniforms();
     }
 
     int ShaderProgram::getUniformLocation(char *name) const {
         return glGetUniformLocation(_ID, name);
     }
 
-    void ShaderProgram::setDefaultUniforms() const {
-        glUniform1f(getUniformLocation((char*)"uTime"), glfwGetTime());
-    }
 }
 
 

@@ -37,10 +37,10 @@ namespace slt::window {
 
     [[nodiscard]] unsigned int getWidth();
 
-    // returns the time since initialisation of the window
-    [[nodiscard]] double time();
+    // returns the time since initialisation of the window (seconds)
+    [[nodiscard]] double trueTime();
 
-    // returns the time between initialisation and the last render of a frame
+    // returns the time between initialisation and the last render of a frame (seconds)
     [[nodiscard]] double frameTime();
 
     //  returns the time between the most recent frame render and the one before that

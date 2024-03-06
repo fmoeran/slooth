@@ -19,7 +19,7 @@ namespace slt
         float _width, _length;
         unsigned int _numVertsX, _numVertsZ;
         size_t _numVerts, _numIndices;
-        std::unique_ptr<Vertex[]> _vertices;
+        std::unique_ptr<VertexPlain[]> _vertices;
         std::unique_ptr<unsigned int[]> _indices;
 
         // initialises _vertices and _indices arrays and calls Object::setVertices()

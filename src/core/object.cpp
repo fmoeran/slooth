@@ -11,11 +11,11 @@ namespace slt
     namespace files
     {
         std::map<VertexEnum, std::string> vertex {
-            {VertexEnum::VERTEX, "../src/core/shaders/default.vert" },
+            {VertexEnum::VERTEX_PLAIN,   "../src/core/shaders/vertexPlain.vert" },
             {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.vert"}
         };
         std::map<VertexEnum, std::string> fragment {
-            {VertexEnum::VERTEX, "../src/core/shaders/default.frag" },
+            {VertexEnum::VERTEX_PLAIN,   "../src/core/shaders/vertexPlain.frag" },
             {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.frag"}
         };
     }
@@ -36,14 +36,15 @@ namespace slt
         _program.buildProgram();
     }
 
-    void Object::draw(){
+    void Object::_draw(){
         _vertices.draw();
     }
 
-    void Object::setDefaultValues() {
+    void Object::_setDefaultValues() {
         _worldSpace = vec3(0);
         _rotation = vec3(0);
         _scale = vec3(1);
+        _plainColour = vec4(1, 1, 1, 1);
     }
 
     glm::mat4 Object::getTransformMatrix() const{
@@ -72,7 +73,7 @@ namespace slt
     }
 
     Object::Object() {
-        setDefaultValues();
+        _setDefaultValues();
     }
 
     void Object::translate(vec3 vec) {
@@ -82,5 +83,49 @@ namespace slt
     void Object::refreshVertices() {
         _vertices.refresh();
     }
+
+    void Object::useShaderProgram() {
+        _program.use();
+        _setUniforms();
+    }
+
+    void Object::setPlainColour(vec4 clr) {
+        _plainColour = clr;
+    }
+
+    void Object::setPlainColour(float r, float g, float b, float a) {
+        _plainColour = vec4(r, g, b, a);
+    }
+
+    void Object::setPlainColour(int r, int g, int b, int a) {
+        setPlainColour((float)r/255, (float)g/255, (float)b/255, (float)a/255);
+    }
+
+    vec4 Object::getPlainColour() {
+        return _plainColour;
+    }
+
+    void Object::_setUniforms() {
+        glUniform1f(_program.getUniformLocation((char*)"uTime"), (float)glfwGetTime());
+
+        switch (_vertices.getType()) {
+            case VertexEnum::VERTEX_PLAIN:
+                _setPlainUniforms();
+                break;
+            case VertexEnum::VERTEX_COLORED:
+                break;
+            case VertexEnum::VERTEX_TEXTURE:
+                break;
+            case VertexEnum::VERTEX_DEFAULT:
+                break;
+        }
+    }
+
+    void Object::_setPlainUniforms() {
+        glUniform4f(_program.getUniformLocation((char*)"uColour"),
+                    _plainColour.r, _plainColour.g, _plainColour.b, _plainColour.a);
+
+    }
+
 
 }
