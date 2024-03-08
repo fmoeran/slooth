@@ -126,6 +126,10 @@ namespace slt
                     _plainColour.r, _plainColour.g, _plainColour.b, _plainColour.a);
 
     }
+//
+//    VertexEnum Object::getVertexType() {
+//        return _vertices.getType();
+//    }
 
 
 }

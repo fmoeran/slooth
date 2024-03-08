@@ -34,6 +34,9 @@ namespace slt
         /// \param fragmentShader relative path to fragment shader, "" sets it to the default shader for the object's vertex type
         void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
 
+
+        //VertexEnum getVertexType();
+
         void useShaderProgram();
 
         void refreshVertices();
