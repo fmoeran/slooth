@@ -11,7 +11,7 @@ but with the capability to design specific renderable objects and render pipelin
 
 ## Example Program
 
-This is a quick program to create a plane of 10x10 units and 1000x1000 vertices.
+This is a quick program to create and draw a plane.
 The default camera methods allow the user to move around with WASD.
 ```c++
 #include "core/window.hpp"

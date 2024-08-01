@@ -22,7 +22,7 @@ namespace slt
         std::unique_ptr<VertexPlain[]> _vertices;
         std::unique_ptr<unsigned int[]> _indices;
 
-        // initialises _vertices and _indices arrays and calls Object::setVertices()
+        /// initialises _vertices and _indices arrays and calls Object::setVertices()
         void initVertices();
     };
 

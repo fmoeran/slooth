@@ -7,6 +7,7 @@
 #include "glm/glm.hpp"
 
 #include <cstddef>
+
 namespace slt
 {
     using vec4 = glm::vec4;
@@ -21,7 +22,7 @@ namespace slt
     };
 
 
-    // A vertex that only stores 3d coordinates
+    /// A vertex that only stores 3d coordinates
     struct VertexPlain {
         vec3 position;
         VertexPlain(float x, float y, float z);
@@ -29,7 +30,7 @@ namespace slt
         VertexPlain();
     };
 
-    // Vertex that stores position and colour components
+    /// Vertex that stores position and colour components
     struct VertexColored {
         vec3 position;
         vec3 rgb;
@@ -37,7 +38,7 @@ namespace slt
         VertexColored(vec3 pos, vec3 col);
     };
 
-    // Vertex that stores position and texture coordinates
+    /// Vertex that stores position and texture coordinates
     struct VertexTexture {
         vec3 position;
         vec2 uvCoords;
@@ -45,7 +46,7 @@ namespace slt
         VertexTexture(vec3 pos, vec2 uv);
     };
 
-    // Vertex that stores position, texture coordinates, and normal vector
+    /// Vertex that stores position, texture coordinates, and normal vector
     struct VertexDefault {
         vec3 position;
         vec2 uvCoords;

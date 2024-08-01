@@ -21,12 +21,12 @@ namespace slt::window {
 
     void loadInputs();
 
-    // returns whether a key is being held down
+    /// returns whether a key is being held down
     bool isHeld(Key key);
 
-    // returns whether a key has "just" been pressed.
-    // return true if the last time this was called it return false and now the key is held
-    // returns false if the key is not being held or last time this was called the key was being held
+    /// returns whether a key has "just" been pressed.
+    /// return true if the last time this was called it return false and now the key is held
+    /// returns false if the key is not being held or last time this was called the key was being held
     bool isPressed(Key key);
 
     void fill(float r, float g, float b, float a);
@@ -37,13 +37,13 @@ namespace slt::window {
 
     [[nodiscard]] unsigned int getWidth();
 
-    // returns the time since initialisation of the window (seconds)
+    /// returns the time since initialisation of the window (seconds)
     [[nodiscard]] double trueTime();
 
-    // returns the time between initialisation and the last render of a frame (seconds)
+    /// returns the time between initialisation and the last render of a frame (seconds)
     [[nodiscard]] double frameTime();
 
-    //  returns the time between the most recent frame render and the one before that
+    ///  returns the time between the most recent frame render and the one before that
     [[nodiscard]] double deltaTime();
 
     vec2 getMousePos();
