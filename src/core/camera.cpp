@@ -17,13 +17,13 @@ namespace slt
     Camera::Camera(vec3 position, float fovY, float aspectRatio, float lowerRangeBound, float upperRangeBound) {
         _position = position;
         projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
-        setDefaults();
+        _setDefaults();
     }
 
     Camera::Camera(float fovY, vec3 position, float lowerRangeBound, float upperRangeBound) {
         _position = position;
         projection = glm::perspective(fovY, (float)window::getWidth()/(float)window::getHeight(), lowerRangeBound, upperRangeBound);
-        setDefaults();
+        _setDefaults();
     }
 
     void Camera::drawObject(Object& obj) {
@@ -51,13 +51,13 @@ namespace slt
         return glm::lookAt(_position, _position + _front, _up);
     }
 
-    void Camera::setDefaults() {
+    void Camera::_setDefaults() {
         _up = vec3(0, 1, 0);
         _front = vec3(0, 0, 1);
         _right = vec3(1, 0, 0);
         _yaw = 0;
         _pitch = 0;
-        updateVectors();
+        _updateVectors();
     }
 
     vec3 Camera::getPosition() {
@@ -84,16 +84,12 @@ namespace slt
         // mouse movement
         if (window::mouseLocked()) {
             vec2 offset = window::getDeltaMousePos();
-            _yaw += offset.x * sensitivity;
-            _pitch += offset.y * sensitivity;
-
-            _pitch = std::clamp(_pitch, -89.0f, 89.0f);
-
-            updateVectors();
+            rotateYaw(offset.x * sensitivity);
+            setPitch(std::clamp(getPitch() + offset.y * sensitivity, -89.0f, 89.0f));
         }
     }
 
-    void Camera::updateVectors() {
+    void Camera::_updateVectors() {
         _front.x = (float)sin(glm::radians(_yaw)) * (float)cos(glm::radians(_pitch));
         _front.y = (float)sin(glm::radians(_pitch));
         _front.z = (float)cos(glm::radians(_yaw)) * (float)cos(glm::radians(_pitch));
@@ -101,6 +97,32 @@ namespace slt
         _front = glm::normalize(_front);
         _right = glm::normalize(glm::cross(_front, vec3(0, 1, 0)));
         _up    = glm::normalize(glm::cross(_right, _front));
+    }
+
+    void Camera::setYaw(float deg) {
+        _yaw = std::fmod(deg, 360.0f);
+        _updateVectors();
+    }
+
+    void Camera::rotateYaw(float deg) {
+        setYaw(getYaw() + deg);
+    }
+
+    float Camera::getYaw() const {
+        return _yaw;
+    }
+
+    void Camera::setPitch(float deg) {
+        _pitch = deg;
+        _updateVectors();
+    }
+
+    void Camera::rotatePitch(float deg) {
+        setPitch(getPitch() + deg);
+    }
+
+    float Camera::getPitch() const {
+        return _pitch;
     }
 }
 
