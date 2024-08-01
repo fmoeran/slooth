@@ -20,7 +20,6 @@ namespace slt
     public:
         Object();
 
-
         /// Sets the object to point to a specific mesh of vertices and the indexes to draw them at
         /// \param vertexType slt::VertexEnum type, specifies what type of vertex is being stored in vertices
         /// \param vertices void pointer to the beginning of the vertices container
@@ -79,15 +78,12 @@ namespace slt
         // Vertex specific uniforms
         vec4 _plainColour{};
 
-
+        /// When initializing the object, this sets many of the values like location and position and colour
+        /// to default values (usually 0 or 1).
         void _setDefaultValues();
 
         [[nodiscard]] glm::mat4 getTransformMatrix() const;
 
-         /// Draws the object to the current un-rendered screen. \n
-         /// Should only be called by Camera::drawObject. \n
-         /// Object._program.use() must be called before this with the uniforms set
-         void _draw();
 
          /// Sets the basic uniforms like uTime. \n
          /// Also sets the uniforms for specific vertex types like uColour for VERTEX_PLAIN
@@ -96,6 +92,13 @@ namespace slt
          void _setPlainUniforms();
 
         friend class Camera;
+
+ private:
+
+     /// Draws the object to the current un-rendered screen. \n
+     /// Should only be called by Camera::drawObject. \n
+     /// Object._program.use() must be called before this with the uniforms set
+     void _draw();
 
     };
 }
