@@ -6,8 +6,9 @@
 
 namespace slt {
     Rect::Rect(slt::vec3 position, float width, float height)
-    : _position(position), _width(width), _height(height)
+    :  _width(width), _height(height)
     {
+        _worldSpace = position;
         Object::_setDefaultValues();
         initVertices();
         Object::setShaders();
@@ -17,12 +18,11 @@ namespace slt {
         // VERTICES
         _vertices = std::make_unique<VertexPlain[]>(_numVerts);
         float dx = _width / 2, dy = _height/2;
-        float x = _position.x, y = _position.y, z = _position.z;
-        _vertices[0] = vec3(x - dx, y - dy, z);
-        _vertices[1] = vec3(x + dx, y - dy, z);
-        _vertices[2] = vec3(x + dx, y + dy, z);
-        _vertices[3] = vec3(x - dx, y + dy, z);
-        // INDICEs
+        _vertices[0] = vec3(-dx, -dy, 0);
+        _vertices[1] = vec3(+dx, -dy, 0);
+        _vertices[2] = vec3(+dx, +dy, 0);
+        _vertices[3] = vec3(-dx, +dy, 0);
+        // INDICES
         _indices = std::make_unique<unsigned int[]>(_numIndices);
 
         _indices[0] = 0;

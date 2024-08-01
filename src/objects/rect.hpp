@@ -13,7 +13,6 @@ namespace slt {
     public:
         Rect(vec3 position, float width, float height);
     private:
-        vec3 _position;
         float _width, _height;
         static const size_t _numVerts = 4, _numIndices = 6;
         std::unique_ptr<VertexPlain[]> _vertices;
