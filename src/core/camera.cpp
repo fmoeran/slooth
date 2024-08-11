@@ -29,15 +29,17 @@ namespace slt
     void Camera::drawObject(Object& obj) {
         // set the matrix uniform variables
         obj.useShaderProgram();
-        int viewLocation = obj._program.getUniformLocation((char*)"uView");
-        int projectionLocation = obj._program.getUniformLocation((char*)"uProjection");
-        int modelLocation = obj._program.getUniformLocation((char*)"uModel");
+        int viewMatLocation = obj._program.getUniformLocation((char*)"uView");
+        int projMatLocation = obj._program.getUniformLocation((char*)"uProjection");
+        int modelMatLocation = obj._program.getUniformLocation((char*)"uModel");
+        int viewPosLocation  = obj._program.getUniformLocation((char*)"uViewPos");
 
         glm::mat4 view = getViewMatrix();
 
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
-        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(obj.getTransformMatrix()));
+        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, glm::value_ptr(obj.getTransformMatrix()));
+        glUniform3f(viewPosLocation, getPosition().x, getPosition().y, getPosition().z);
 
         obj._draw();
     }

@@ -16,9 +16,10 @@ namespace slt {
         Cuboid(vec3 position, vec3 dimensions);
     private:
         vec3 _dimensions;
-        static const size_t _numVerts = 8, _numIndices = 36;
-        std::unique_ptr<VertexPlain[]> _vertices;
-        std::unique_ptr<unsigned int[]> _indices;
+        static const size_t _numVerts = 24, _numIndices = 36;
+        static const VertexDefault _vertexInitialiser[];
+        VertexDefault _vertices[_numVerts];
+        unsigned int _indices[_numIndices];
 
         void initVertices();
     };

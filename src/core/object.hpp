@@ -6,6 +6,7 @@
 
 #include "vertex.hpp"
 #include "shader.hpp"
+#include "material.hpp"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -16,6 +17,7 @@
 
 namespace slt
 {
+
  class Object {
     public:
         Object();
@@ -34,8 +36,6 @@ namespace slt
         void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
 
 
-        //VertexEnum getVertexType();
-
         void useShaderProgram();
 
         void refreshVertices();
@@ -48,19 +48,20 @@ namespace slt
         void setScale(vec3 scales);
         vec3 getScale();
 
-        /// Sets the colour of a PLAIN vertex object.
+        /// Sets the colour of an object without a texture.
         /// Will not have any effect for any other vertex.
         /// \param clr rgba colour of object (each value 0-1)
         void setPlainColour(vec4 clr);
 
-        /// Sets the colour of a PLAIN vertex object.
+         /// Sets the colour of an object without a texture.
         /// Will not have any effect for any other vertex.
         /// \param r red [0-1]
         /// \param g green [0-1]
         /// \param b blue [0-1]
         /// \param a alpha [0-1]
         void setPlainColour(float r, float g, float b, float a=1.0);
-        /// Sets the colour of a PLAIN vertex object.
+
+        /// Sets the colour of an object without a texture.
         /// Will not have any effect for any other vertex.
         /// \param r red [0-255]
         /// \param g green [0-255]
@@ -70,29 +71,28 @@ namespace slt
 
         vec4 getPlainColour();
 
+        Material& material();
     protected:
         VertexArray _vertices;
         ShaderProgram _program;
         vec3 _worldSpace{}, _rotation{}, _scale{};
 
-        // Vertex specific uniforms
+        // VertexDefault specific uniforms
         vec4 _plainColour{};
+
+        Material _material;
 
         /// When initializing the object, this sets many of the values like location and position and colour
         /// to default values (usually 0 or 1).
         void _setDefaultValues();
 
-        [[nodiscard]] glm::mat4 getTransformMatrix() const;
-
-
          /// Sets the basic uniforms like uTime. \n
          /// Also sets the uniforms for specific vertex types like uColour for VERTEX_PLAIN
          void _setUniforms();
 
+         // Sets the uniform values for different types of vertices
          void _setPlainUniforms();
-
-        friend class Camera;
-
+         void _setDefaultUniforms();
  private:
 
      /// Draws the object to the current un-rendered screen. \n
@@ -100,7 +100,11 @@ namespace slt
      /// Object._program.use() must be called before this with the uniforms set
      void _draw();
 
-    };
+     [[nodiscard]] glm::mat4 getTransformMatrix() const;
+
+     friend class Camera;
+
+ };
 }
 
 

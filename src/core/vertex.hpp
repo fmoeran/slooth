@@ -17,10 +17,9 @@ namespace slt
     enum class VertexEnum {
         VERTEX_PLAIN,
         VERTEX_COLORED,
-        VERTEX_TEXTURE,
+        VERTEX_TEXTURED,
         VERTEX_DEFAULT
     };
-
 
     /// A vertex that only stores 3d coordinates
     struct VertexPlain {
@@ -30,7 +29,7 @@ namespace slt
         VertexPlain();
     };
 
-    /// Vertex that stores position and colour components
+    /// VertexDefault that stores position and colour components
     struct VertexColored {
         vec3 position;
         vec3 rgb;
@@ -38,21 +37,23 @@ namespace slt
         VertexColored(vec3 pos, vec3 col);
     };
 
-    /// Vertex that stores position and texture coordinates
-    struct VertexTexture {
+    /// VertexDefault that stores position and texture coordinates
+    struct VertexDefault {
         vec3 position;
-        vec2 uvCoords;
-        VertexTexture(float x, float y, float z, float u, float v);
-        VertexTexture(vec3 pos, vec2 uv);
+        vec3 normal;
+        VertexDefault(float x, float y, float z, float nx, float ny, float nz);
+        VertexDefault(vec3 pos, vec3 norm);
+        VertexDefault();
     };
 
-    /// Vertex that stores position, texture coordinates, and normal vector
-    struct VertexDefault {
+    /// VertexDefault that stores position, texture coordinates, and normal vector
+    struct VertexTextured {
         vec3 position;
         vec2 uvCoords;
         vec3 normal;
-        VertexDefault(float x, float y, float z, float u, float v, float nx, float ny, float nz);
-        VertexDefault(vec3 pos, vec2 uv, vec3 norm);
+        VertexTextured(float x, float y, float z, float u, float v, float nx, float ny, float nz);
+        VertexTextured(vec3 pos, vec2 uv, vec3 norm);
+        VertexTextured();
     };
 
     struct VertexArray {
@@ -74,7 +75,7 @@ namespace slt
 
         void initAttribsPlain();
         void initAttribsColored();
-        void initAttribsTexture();
+        void initAttribsTextured();
         void initAttribsDefault();
     };
 }

@@ -5,6 +5,7 @@
 #include "object.hpp"
 #include <iostream>
 #include <map>
+
 namespace slt
 {
 
@@ -12,11 +13,13 @@ namespace slt
     {
         std::map<VertexEnum, std::string> vertex {
             {VertexEnum::VERTEX_PLAIN,   "../src/core/shaders/vertexPlain.vert" },
-            {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.vert"}
+            {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.vert"},
+            {VertexEnum::VERTEX_DEFAULT, "../src/core/shaders/vertexDefault.vert"}
         };
         std::map<VertexEnum, std::string> fragment {
             {VertexEnum::VERTEX_PLAIN,   "../src/core/shaders/vertexPlain.frag" },
-            {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.frag"}
+            {VertexEnum::VERTEX_COLORED, "../src/core/shaders/vertexColoured.frag"},
+            {VertexEnum::VERTEX_DEFAULT, "../src/core/shaders/vertexDefault.frag"}
         };
     }
 
@@ -41,9 +44,9 @@ namespace slt
     }
 
     void Object::_setDefaultValues() {
-        _worldSpace = vec3(0);
-        _rotation = vec3(0);
-        _scale = vec3(1);
+        _worldSpace  = vec3(0);
+        _rotation    = vec3(0);
+        _scale       = vec3(1);
         _plainColour = vec4(1, 1, 1, 1);
     }
 
@@ -108,15 +111,18 @@ namespace slt
     void Object::_setUniforms() {
         glUniform1f(_program.getUniformLocation((char*)"uTime"), (float)glfwGetTime());
 
+        _material._setUniforms(_program);
+
         switch (_vertices.getType()) {
             case VertexEnum::VERTEX_PLAIN:
                 _setPlainUniforms();
                 break;
             case VertexEnum::VERTEX_COLORED:
                 break;
-            case VertexEnum::VERTEX_TEXTURE:
+            case VertexEnum::VERTEX_TEXTURED:
                 break;
             case VertexEnum::VERTEX_DEFAULT:
+                _setDefaultUniforms();
                 break;
         }
     }
@@ -124,12 +130,14 @@ namespace slt
     void Object::_setPlainUniforms() {
         glUniform4f(_program.getUniformLocation((char*)"uColour"),
                     _plainColour.r, _plainColour.g, _plainColour.b, _plainColour.a);
-
     }
-//
-//    VertexEnum Object::getVertexType() {
-//        return _vertices.getType();
-//    }
 
+    void Object::_setDefaultUniforms() {
+        glUniform4f(_program.getUniformLocation((char*)"uColour"),
+                    _plainColour.r, _plainColour.g, _plainColour.b, _plainColour.a);
+    }
 
+    Material &Object::material() {
+        return _material;
+    }
 }

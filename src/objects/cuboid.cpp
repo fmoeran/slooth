@@ -4,9 +4,45 @@
 
 #include "cuboid.hpp"
 
-#define BIT(x, n) (x>>n)&1
+#define BIT(x, n) ((x>>n)&1)
 
 namespace slt{
+
+    vec3 front = {0, 0, 1}, right = {1, 0, 0}, top = {0, 1, 0};
+
+     const VertexDefault Cuboid::_vertexInitialiser[_numVerts] = {
+            // Front Face
+            VertexDefault({0.5, 0.5, 0.5}, front), // TOP RIGHT
+            VertexDefault({0.5, -0.5, 0.5}, front), // BOTTOM RIGHT
+            VertexDefault({-0.5, -0.5, 0.5}, front), // BOTTOM LEFT
+            VertexDefault({-0.5, 0.5, 0.5}, front), // TOP LEFT
+            // Right Face
+            VertexDefault({0.5, 0.5, -0.5}, right), // TOP RIGHT
+            VertexDefault({0.5, -0.5, -0.5}, right), // BOTTOM RIGHT
+            VertexDefault({0.5, -0.5, 0.5}, right), // BOTTOM LEFT
+            VertexDefault({0.5, 0.5, 0.5}, right), // TOP LEFT
+            // Top Face
+            VertexDefault({0.5, 0.5, -0.5}, top), // TOP RIGHT
+            VertexDefault({0.5, 0.5, 0.5}, top), // BOTTOM RIGHT
+            VertexDefault({-0.5, 0.5, 0.5}, top), // BOTTOM LEFT
+            VertexDefault({-0.5, 0.5, -0.5}, top), // TOP LEFT
+             // Back Face
+            VertexDefault({0.5, 0.5, -0.5}, -front), // TOP RIGHT
+            VertexDefault({0.5, -0.5, -0.5}, -front), // BOTTOM RIGHT
+            VertexDefault({-0.5, -0.5, -0.5}, -front), // BOTTOM LEFT
+            VertexDefault({-0.5, 0.5, -0.5}, -front), // TOP LEFT
+             // Left Face
+            VertexDefault({-0.5, 0.5, -0.5}, -right), // TOP RIGHT
+            VertexDefault({-0.5, -0.5, -0.5}, -right), // BOTTOM RIGHT
+            VertexDefault({-0.5, -0.5, 0.5}, -right), // BOTTOM LEFT
+            VertexDefault({-0.5, 0.5, 0.5}, -right), // TOP LEFT
+             // Botom Face
+            VertexDefault({0.5, -0.5, -0.5}, -top), // TOP RIGHT
+            VertexDefault({0.5, -0.5, 0.5}, -top), // BOTTOM RIGHT
+            VertexDefault({-0.5, -0.5, 0.5}, -top), // BOTTOM LEFT
+            VertexDefault({-0.5, -0.5, -0.5}, -top), // TOP LEFT
+
+    };
 
     Cuboid::Cuboid(vec3 position, vec3 dimensions)
     : Object(), _dimensions(dimensions){
@@ -18,38 +54,22 @@ namespace slt{
 
     void Cuboid::initVertices() {
         // VERTICES
-        _vertices = std::make_unique<VertexPlain[]>(_numVerts);
         vec3 d = {_dimensions.x/2, _dimensions.y/2, _dimensions.z/2};
-        float mul[] = {1, -1};
-        for (int vert=0; vert<_numVerts; vert++) {
-            vec3 pos = {mul[BIT(vert, 0)], mul[BIT(vert, 1)], mul[BIT(vert, 2)]};
-            pos *= d;
-            _vertices[vert] = pos;
 
+        for (size_t v=0; v<_numVerts; v++) {
+            _vertices[v].position = d * _vertexInitialiser[v].position;
+            _vertices[v].normal   = _vertexInitialiser[v].normal;
         }
 
-        // INDICES
-        _indices = std::make_unique<unsigned int[]>(_numIndices);
+        const size_t faceSize = 6;
+        for (size_t f=0; f<6; f++) {
+            unsigned int vInd = f * 4, iInd = f * 6;
+            unsigned int faceInds[faceSize] = {vInd + 0, vInd + 1, vInd + 2, vInd + 0, vInd + 3, vInd + 2};
+            std::copy(faceInds, faceInds+faceSize, _indices + iInd);
+        }
 
-        unsigned int vals[] = {0, 1, 2,
-                               1, 2, 3,
-                               0, 4, 5,
-                               0, 5, 1,
-                               0, 4, 2,
-                               6, 4, 2,
-                               1, 5, 3,
-                               3, 5, 7,
-                               2, 6, 3,
-                               3, 6, 7,
-                               4, 5, 6,
-                               5, 6, 7};
-
-        std::fill(_indices.get(), _indices.get() + _numIndices, 0);
-
-        std::copy(vals, vals + 36, _indices.get());
-
-        Object::setVertices(VertexEnum::VERTEX_PLAIN,
-                            _vertices.get(), sizeof(VertexPlain) * _numVerts,
-                            _indices.get(), sizeof(unsigned int) * _numIndices);
+        Object::setVertices(VertexEnum::VERTEX_DEFAULT,
+                            _vertices, sizeof(VertexDefault) * _numVerts,
+                            _indices, sizeof(unsigned int) * _numIndices);
     }
 }

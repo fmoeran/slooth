@@ -23,18 +23,23 @@ namespace slt
 
     VertexColored::VertexColored(vec3 pos, vec3 col): position(pos), rgb(col) {}
 
-    VertexTexture::VertexTexture(float x, float y, float z, float u, float v) {
+    VertexDefault::VertexDefault(float x, float y, float z, float nx, float ny, float nz) {
         position = {x, y, z};
-        uvCoords = {u, v};
+        normal   = {nx, ny, nz};
     }
-    VertexTexture::VertexTexture(vec3 pos, vec2 uv): position(pos), uvCoords(uv) {}
 
-    VertexDefault::VertexDefault(float x, float y, float z, float u, float v, float nx, float ny, float nz) {
+    VertexDefault::VertexDefault(vec3 pos, vec3 norm): position(pos), normal(norm) {}
+
+    VertexDefault::VertexDefault(): position(0), normal(0) {}
+
+    VertexTextured::VertexTextured(float x, float y, float z, float u, float v, float nx, float ny, float nz) {
         position = {x, y, z};
         uvCoords = {u, v};
         normal = {nx, ny, nz};
     }
-    VertexDefault::VertexDefault(vec3 pos, vec2 uv, vec3 norm): position(pos), uvCoords(uv), normal(norm) {}
+    VertexTextured::VertexTextured(vec3 pos, vec2 uv, vec3 norm): position(pos), uvCoords(uv), normal(norm) {}
+
+    VertexTextured::VertexTextured(): position(0), uvCoords(0), normal(0) {}
 
     VertexArray::VertexArray() {
         glGenVertexArrays(1, &_VAO);
@@ -56,7 +61,7 @@ namespace slt
         switch (vertexType){
             case VertexEnum::VERTEX_PLAIN:{initAttribsPlain();break;}
             case VertexEnum::VERTEX_COLORED: {initAttribsColored(); break;}
-            case VertexEnum::VERTEX_TEXTURE: {initAttribsTexture(); break;}
+            case VertexEnum::VERTEX_TEXTURED: {initAttribsTextured(); break;}
             case VertexEnum::VERTEX_DEFAULT: {initAttribsDefault(); break;}
         }
         glBindVertexArray(0);
@@ -74,19 +79,19 @@ namespace slt
         glEnableVertexAttribArray(1);
     }
 
-    void VertexArray::initAttribsTexture() {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTexture), nullptr);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexTexture), (void*)(offsetof(VertexTexture, uvCoords)));
-        glEnableVertexAttribArray(1);
-    }
-
     void VertexArray::initAttribsDefault() {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexDefault), nullptr);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexDefault), (void*)(offsetof(VertexDefault, uvCoords)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexDefault), (void*)(offsetof(VertexDefault, normal)));
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexDefault), (void*)(offsetof(VertexDefault, normal)));
+    }
+
+    void VertexArray::initAttribsTextured() {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTextured), nullptr);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexTextured), (void*)(offsetof(VertexTextured, uvCoords)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTextured), (void*)(offsetof(VertexTextured, normal)));
         glEnableVertexAttribArray(2);
     }
 
