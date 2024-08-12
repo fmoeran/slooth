@@ -10,18 +10,24 @@ namespace slt
     PointLight::PointLight() : _position(0), _ambience(DEFAULT_LIGHT_AMBIENCE),
     _diffuse(DEFAULT_LIGHT_DIFFUSE), _specular(DEFAULT_LIGHT_SPECULAR),
     _constantAtt(DEFAULT_ATTENUATION_CONSTANT), _linearAtt(DEFAULT_ATTENUATION_LINEAR),
-    _quadraticAtt(DEFAULT_ATTENUATION_QUADRATIC){}
+    _quadraticAtt(DEFAULT_ATTENUATION_QUADRATIC){
+        lightHandler::registerPointLight(*this);
+    }
 
     PointLight::PointLight(vec3 pos): _position(pos), _ambience(DEFAULT_LIGHT_AMBIENCE),
     _diffuse(DEFAULT_LIGHT_DIFFUSE), _specular(DEFAULT_LIGHT_SPECULAR),
     _constantAtt(DEFAULT_ATTENUATION_CONSTANT), _linearAtt(DEFAULT_ATTENUATION_LINEAR),
-    _quadraticAtt(DEFAULT_ATTENUATION_QUADRATIC){}
+    _quadraticAtt(DEFAULT_ATTENUATION_QUADRATIC){
+        lightHandler::registerPointLight(*this);
+    }
 
 
     PointLight::PointLight(vec3 pos, vec3 ambience, vec3 diffuse, vec3 specular)
     : _position(pos), _ambience(ambience), _diffuse(diffuse), _specular(specular),
     _constantAtt(DEFAULT_ATTENUATION_CONSTANT), _linearAtt(DEFAULT_ATTENUATION_LINEAR),
-    _quadraticAtt(DEFAULT_ATTENUATION_QUADRATIC){}
+    _quadraticAtt(DEFAULT_ATTENUATION_QUADRATIC){
+        lightHandler::registerPointLight(*this);
+    }
 
     void PointLight::setUniforms(ShaderProgram& program, std::string name) {
         glUniform3f(program.getUniformLocation(name+".pos"), _position.x, _position.y, _position.z);
@@ -44,4 +50,24 @@ namespace slt
         setAttenuation(1.0, 4.5f/range, 75.0f/(range*range));
     }
 
+    namespace lightHandler
+    {
+        std::array<PointLight*, MAX_LIGHT_NUM> pointLights;
+        unsigned int numPointLights = 0;
+
+        void registerPointLight(PointLight& light) {
+            if (numPointLights >= MAX_LIGHT_NUM) throw(std::runtime_error("Too many lights. MAX_LIGHT_NUM = " + std::to_string(MAX_LIGHT_NUM)));
+            pointLights[numPointLights] = &light;
+            numPointLights++;
+        }
+
+        void setUniforms(ShaderProgram program) {
+            glUniform1i(program.getUniformLocation("uNumPointLights"), numPointLights);
+            for (int index = 0; index < numPointLights; index++) {
+                std::string name = "uPointLights[" + std::to_string(index) + "]";
+                PointLight& light = *pointLights[index];
+                light.setUniforms(program, name);
+            }
+        }
+    }
 }

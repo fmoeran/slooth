@@ -1,5 +1,6 @@
 #include "core/window.hpp"
 #include "core/camera.hpp"
+#include "core/light.hpp"
 #include "objects/rect.hpp"
 #include "objects/cuboid.hpp"
 
@@ -16,6 +17,10 @@ int main()
 
     Cuboid obj({0, 0, 0}, {10, 10, 1});
     obj.setPlainColour({1, 0, 0});
+
+    PointLight light1({1, 1, 1});
+
+    PointLight light2({-1, 1, 10});
 
     window::setMouseLocked(true);
 //    window::toggleWireframe();

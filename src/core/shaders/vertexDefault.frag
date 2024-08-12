@@ -23,10 +23,13 @@ struct Light {
     float quadAtt;
 };
 
+const int MAX_LIGHT_NUM = 10;
+
 uniform vec3  uViewPos;
 uniform float uTime;
 uniform Material uMaterial;
-uniform Light uLight;
+uniform Light uPointLights[MAX_LIGHT_NUM];
+uniform int uNumPointLights;
 
 vec4 calculateLightIntensity(Light lightSource) {
     vec3 toLightSource      = normalize(lightSource.pos - fragPos);
@@ -51,5 +54,8 @@ vec4 calculateLightIntensity(Light lightSource) {
 }
 
 void main() {
-    FragColor = calculateLightIntensity(uLight) ;
+    FragColor = vec4(0);
+    for (int light = 0; light < uNumPointLights; light++) {
+        FragColor += calculateLightIntensity(uPointLights[light]);
+    }
 }

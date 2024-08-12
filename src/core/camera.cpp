@@ -30,10 +30,7 @@ namespace slt
         obj.useShaderProgram();
         _setUniforms(obj._program);
 
-        PointLight light({1, 1, 1});
-        light.setAttenuation(20);
-
-        if (obj.usesLights()) light.setUniforms(obj._program, "uLight");
+        if (obj.usesLights()) lightHandler::setUniforms(obj._program);
 
         obj._draw();
     }

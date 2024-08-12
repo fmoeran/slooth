@@ -6,6 +6,7 @@
 
 #include "shader.hpp"
 #include "vertex.hpp" // vec3
+#include <array>
 
 
 namespace slt
@@ -37,4 +38,13 @@ namespace slt
         float _constantAtt, _linearAtt, _quadraticAtt;
     };
 
+    namespace lightHandler
+    {
+        const unsigned int MAX_LIGHT_NUM = 10;
+
+        /// Called automatically whenever a PointLight is created
+        void registerPointLight(PointLight& light);
+
+        void setUniforms(ShaderProgram program);
+    }
 }
