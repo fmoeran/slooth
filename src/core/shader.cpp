@@ -60,7 +60,6 @@ namespace slt
             glGetShaderInfoLog(_shader, 512, nullptr, infoLog);
             std::cout << "Shader compilation incomplete:\n" << infoLog << std::endl;
         }
-
     }
 
     Shader::~Shader() {
@@ -83,8 +82,8 @@ namespace slt
         glUseProgram(_ID);
     }
 
-    int ShaderProgram::getUniformLocation(char *name) const {
-        return glGetUniformLocation(_ID, name);
+    int ShaderProgram::getUniformLocation(std::string name) const {
+        return glGetUniformLocation(_ID, name.c_str());
     }
 
 }

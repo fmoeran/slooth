@@ -2,8 +2,8 @@
 // Created by felix on 02/09/2023.
 //
 #include "camera.hpp"
-
 #include "object.hpp"
+#include "light.hpp"
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -27,19 +27,13 @@ namespace slt
     }
 
     void Camera::drawObject(Object& obj) {
-        // set the matrix uniform variables
         obj.useShaderProgram();
-        int viewMatLocation = obj._program.getUniformLocation((char*)"uView");
-        int projMatLocation = obj._program.getUniformLocation((char*)"uProjection");
-        int modelMatLocation = obj._program.getUniformLocation((char*)"uModel");
-        int viewPosLocation  = obj._program.getUniformLocation((char*)"uViewPos");
+        _setUniforms(obj._program);
 
-        glm::mat4 view = getViewMatrix();
+        PointLight light({1, 1, 1});
+        light.setAttenuation(20);
 
-        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projection));
-        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, glm::value_ptr(obj.getTransformMatrix()));
-        glUniform3f(viewPosLocation, getPosition().x, getPosition().y, getPosition().z);
+        if (obj.usesLights()) light.setUniforms(obj._program, "uLight");
 
         obj._draw();
     }
@@ -49,7 +43,6 @@ namespace slt
     }
 
     glm::mat4 Camera::getViewMatrix() {
-
         return glm::lookAt(_position, _position + _front, _up);
     }
 
@@ -125,6 +118,19 @@ namespace slt
 
     float Camera::getPitch() const {
         return _pitch;
+    }
+
+    void Camera::_setUniforms(ShaderProgram& program) {
+    
+        int viewMatLocation = program.getUniformLocation("uView");
+        int projMatLocation = program.getUniformLocation("uProjection");
+        int viewPosLocation  = program.getUniformLocation("uViewPos");
+
+        glm::mat4 view = getViewMatrix();
+
+        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniform3f(viewPosLocation, getPosition().x, getPosition().y, getPosition().z);
     }
 }
 

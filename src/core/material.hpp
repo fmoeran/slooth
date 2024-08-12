@@ -5,31 +5,34 @@
 #pragma once
 
 #include "shader.hpp"
+#include "vertex.hpp"
 
 namespace slt
 {
-    const float DEFAULT_AMBIENCE = 0.1,
-                DEFAULT_DIFFUSE  = 1.0,
-                DEFAULT_SPECULAR = 1.0,
-                DEFAULT_SHINE    = 1.0;
+    const vec3  DEFAULT_MATERIAL_AMBIENCE(0.2),
+                DEFAULT_MATERIAL_DIFFUSE(1.0),
+                DEFAULT_MATERIAL_SPECULAR(1.0);
+    const float DEFAULT_MATERIAL_SHINE    = 32.0;
+
     class Material {
     public:
         Material();
         Material(float ambience, float diffuse, float specular, float shine);
 
-        float getAmbiance();
-        void setAmbience(float ambience);
+        vec3 getAmbiance();
+        void setAmbience(vec3 ambience);
 
-        float getDiffuse();
-        void setDiffuse(float diffuse);
+        vec3 getDiffuse();
+        void setDiffuse(vec3 diffuse);
 
-        float getSpecular();
-        void setSpecular(float specular);
+        vec3 getSpecular();
+        void setSpecular(vec3 specular);
 
         float getShine();
         void setShine(float shine);
     private:
-        float _ambience, _diffuse, _specular, _shine;
+        vec3 _ambience, _diffuse, _specular;
+        float _shine;
 
         void _setUniforms(ShaderProgram& program);
 

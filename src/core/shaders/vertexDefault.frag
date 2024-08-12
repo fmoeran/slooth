@@ -5,34 +5,51 @@ in vec3 fragNormal;
 
 out vec4 FragColor;
 
-
 struct Material {
-    float ambience;
-    float diffuse;
-    float specular;
+    vec3 ambience;
+    vec3 diffuse;
+    vec3 specular;
     float shine;
+};
+
+struct Light {
+    vec3 pos;
+    vec3 ambience;
+    vec3 diffuse;
+    vec3 specular;
+
+    float constAtt;
+    float linAtt;
+    float quadAtt;
 };
 
 uniform vec3  uViewPos;
 uniform float uTime;
-uniform vec4  uColour;
 uniform Material uMaterial;
+uniform Light uLight;
 
-vec3 lightSource = vec3(1, 1, 2);
-vec4 lightAmbience = vec4(1);
-vec4 lightDiffuse = vec4(1);
-vec4 lightSpecular = vec4(1);
+vec4 calculateLightIntensity(Light lightSource) {
+    vec3 toLightSource      = normalize(lightSource.pos - fragPos);
+    float distToLightSource = length(lightSource.pos - fragPos);
+    vec3 toViewPos          = normalize(uViewPos - fragPos);
+    vec3 reflection         = normalize(2*dot(toLightSource, fragNormal) * fragNormal - toLightSource);
+
+    vec3 ambienceResult = uMaterial.ambience * lightSource.ambience;
+
+    vec3 diffuseResult  = clamp(dot(toLightSource, fragNormal), 0, 1) * lightSource.diffuse * uMaterial.diffuse;
+
+    vec3 specularResult = pow(clamp(dot(reflection, toViewPos), 0, 1), uMaterial.shine) * lightSource.specular * uMaterial.specular;
+
+    float attenuation = 1.0 / (lightSource.constAtt + lightSource.linAtt * distToLightSource +
+                        lightSource.quadAtt * distToLightSource * distToLightSource);
+
+    ambienceResult  *= attenuation;
+    diffuseResult  *= attenuation;
+    specularResult *= attenuation;
+
+    return vec4(ambienceResult + diffuseResult + specularResult, 1.0);
+}
 
 void main() {
-    vec3 toLightSource = normalize(lightSource - fragPos);
-    vec3 toViewPos     = normalize(uViewPos - fragPos);
-    vec3 reflection    = normalize(2*dot(toLightSource, fragNormal) * fragNormal - toLightSource);
-
-    vec4 ambienceResult = uMaterial.ambience * lightAmbience;
-
-    vec4 diffuseResult  = clamp(dot(toLightSource, fragNormal), 0, 1) * lightDiffuse * uMaterial.diffuse;
-
-    vec4 specularResult = pow(max(dot(reflection, toViewPos), 0), uMaterial.shine) * lightSpecular * uMaterial.specular;
-
-    FragColor = (ambienceResult + diffuseResult + specularResult) * uColour;
+    FragColor = calculateLightIntensity(uLight) ;
 }

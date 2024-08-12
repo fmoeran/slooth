@@ -45,7 +45,7 @@ namespace slt
         void buildProgram();
         void use();
 
-        int getUniformLocation(char* name) const;
+        [[nodiscard]] int getUniformLocation(std::string name) const;
     private:
         unsigned int _ID;
         std::map<std::string, int> _uniformLocations;

@@ -3,6 +3,9 @@
 //
 
 #include "object.hpp"
+
+#include "glm/gtc/type_ptr.hpp"
+
 #include <iostream>
 #include <map>
 
@@ -47,7 +50,6 @@ namespace slt
         _worldSpace  = vec3(0);
         _rotation    = vec3(0);
         _scale       = vec3(1);
-        _plainColour = vec4(1, 1, 1, 1);
     }
 
     glm::mat4 Object::getTransformMatrix() const{
@@ -92,24 +94,23 @@ namespace slt
         _setUniforms();
     }
 
-    void Object::setPlainColour(vec4 clr) {
-        _plainColour = clr;
+    void Object::setPlainColour(vec3 clr) {
+        material().setDiffuse(clr);
+        material().setAmbience(clr);
     }
 
-    void Object::setPlainColour(float r, float g, float b, float a) {
-        _plainColour = vec4(r, g, b, a);
+    void Object::setPlainColour(float r, float g, float b) {
+        setPlainColour(vec3(r, g, b));
     }
 
-    void Object::setPlainColour(int r, int g, int b, int a) {
-        setPlainColour((float)r/255, (float)g/255, (float)b/255, (float)a/255);
-    }
-
-    vec4 Object::getPlainColour() {
-        return _plainColour;
+    void Object::setPlainColour(int r, int g, int b) {
+        setPlainColour(vec3(r/255, g/255, b/255));
     }
 
     void Object::_setUniforms() {
-        glUniform1f(_program.getUniformLocation((char*)"uTime"), (float)glfwGetTime());
+        glUniform1f(_program.getUniformLocation("uTime"), (float)glfwGetTime());
+        int modelMatLocation = _program.getUniformLocation("uModel");
+        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, glm::value_ptr(getTransformMatrix()));
 
         _material._setUniforms(_program);
 
@@ -128,16 +129,16 @@ namespace slt
     }
 
     void Object::_setPlainUniforms() {
-        glUniform4f(_program.getUniformLocation((char*)"uColour"),
-                    _plainColour.r, _plainColour.g, _plainColour.b, _plainColour.a);
     }
 
     void Object::_setDefaultUniforms() {
-        glUniform4f(_program.getUniformLocation((char*)"uColour"),
-                    _plainColour.r, _plainColour.g, _plainColour.b, _plainColour.a);
     }
 
     Material &Object::material() {
         return _material;
+    }
+
+    bool Object::usesLights() {
+        return _vertices.getType() == VertexEnum::VERTEX_DEFAULT || _vertices.getType() == VertexEnum::VERTEX_TEXTURED;
     }
 }

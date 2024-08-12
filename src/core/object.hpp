@@ -14,10 +14,8 @@
 #include <vector>
 #include <utility>
 
-
 namespace slt
 {
-
  class Object {
     public:
         Object();
@@ -35,7 +33,6 @@ namespace slt
         /// \param fragmentShader relative path to fragment shader, "" sets it to the default shader for the object's vertex type
         void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
 
-
         void useShaderProgram();
 
         void refreshVertices();
@@ -44,41 +41,36 @@ namespace slt
         void translate(vec3 vec);
         vec3 getWorldSpace();
 
-
         void setScale(vec3 scales);
         vec3 getScale();
 
         /// Sets the colour of an object without a texture.
-        /// Will not have any effect for any other vertex.
+        /// sets the diffuse and ambience of the object's material to this colour
         /// \param clr rgba colour of object (each value 0-1)
-        void setPlainColour(vec4 clr);
+        void setPlainColour(vec3 clr);
 
          /// Sets the colour of an object without a texture.
-        /// Will not have any effect for any other vertex.
+         /// sets the diffuse and ambience of the object's material to this colour
         /// \param r red [0-1]
         /// \param g green [0-1]
         /// \param b blue [0-1]
-        /// \param a alpha [0-1]
-        void setPlainColour(float r, float g, float b, float a=1.0);
+        void setPlainColour(float r, float g, float b);
 
         /// Sets the colour of an object without a texture.
-        /// Will not have any effect for any other vertex.
+        /// sets the diffuse and ambience of the object's material to this colour
         /// \param r red [0-255]
         /// \param g green [0-255]
         /// \param b blue [0-255]
-        /// \param a alpha [0-255]
-        void setPlainColour(int r, int g, int b, int a=255);
-
-        vec4 getPlainColour();
+        void setPlainColour(int r, int g, int b);
 
         Material& material();
+
+        /// returns whether the object reacts to light.
+        bool usesLights();
     protected:
         VertexArray _vertices;
         ShaderProgram _program;
         vec3 _worldSpace{}, _rotation{}, _scale{};
-
-        // VertexDefault specific uniforms
-        vec4 _plainColour{};
 
         Material _material;
 

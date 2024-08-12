@@ -19,7 +19,6 @@ namespace slt
         explicit Camera(vec3 position={0.0, 0.0, 0.0}, float fovY=45, float aspectRatio=16.0/9.0, float lowerRangeBound=0.1, float upperRangeBound=100);
         explicit Camera(float fovY=45, vec3 position={0, 0, 0}, float lowerRangeBound=0.1, float upperRangeBound=100);
 
-
         void drawObject(Object& obj);
 
         /// translates the camera's positions relative to global coordinates
@@ -62,6 +61,10 @@ namespace slt
         /// Updates _front, _right, _up.
         /// This should always be used after updating _pitch or _yaw
         void _updateVectors();
+
+        /// Sets the shader uniform values specific to the camera. e.g. view & projection matrices
+        /// \param program the shader to set the uniforms to.
+        void _setUniforms(ShaderProgram& program);
 
     };
 
