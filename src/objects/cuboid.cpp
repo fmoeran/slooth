@@ -53,11 +53,9 @@ namespace slt{
     }
 
     void Cuboid::initVertices() {
-        // VERTICES
-        vec3 d = {_dimensions.x/2, _dimensions.y/2, _dimensions.z/2};
 
         for (size_t v=0; v<_numVerts; v++) {
-            _vertices[v].position = d * _vertexInitialiser[v].position;
+            _vertices[v].position = _dimensions * _vertexInitialiser[v].position;
             _vertices[v].normal   = _vertexInitialiser[v].normal;
         }
 
