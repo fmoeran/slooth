@@ -3,6 +3,7 @@
 #include "core/light.hpp"
 #include "objects/rect.hpp"
 #include "objects/cuboid.hpp"
+#include "objects/plane.hpp"
 
 using namespace slt;
 
@@ -15,8 +16,12 @@ int main()
     Camera camera(45.0, {0, 0, 2});
     camera.setYaw(180);
 
-    Cuboid obj({0, 0, 0}, {10, 10, 1});
-    obj.setPlainColour({1, 0, 0});
+    Cuboid obj({0, 0, 0}, {1, 1, 1});
+    obj.setPlainColour({0.8, 0.3, 0.5});
+
+    Rect rect({0, 0, 1}, 1, 1);
+
+    Plane plane({0, -0.5, 0}, {100, 100}, {100, 100});
 
     PointLight light1({1, 1, 1});
 
@@ -40,6 +45,8 @@ int main()
         window::fill(0, 0, 0, 1);
 
         camera.drawObject(obj);
+        camera.drawObject(rect);
+        camera.drawObject(plane);
 
         window::display();
     }

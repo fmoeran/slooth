@@ -7,12 +7,11 @@
 
 namespace slt
 {
-    Plane::Plane(float width, float length, unsigned int numVertsX, unsigned int numVertsZ)
-            : _width(width), _length(length), _numVertsX(numVertsX), _numVertsZ(numVertsZ),
-            _numVerts(numVertsX * numVertsZ), _numIndices(2 * 3 * (_numVertsX - 1) * (_numVertsZ - 1)){
-        Object::_setDefaultValues();
+    Plane::Plane(vec3 position, vec2 dimensions, vec2 vertexCounts)
+            :Object(), _width(dimensions.x), _length(dimensions.y), _numVertsX(vertexCounts.x), _numVertsZ(vertexCounts.y),
+            _numVerts(vertexCounts.x * vertexCounts.y), _numIndices(2 * 3 * (_numVertsX - 1) * (_numVertsZ - 1)){
+        Object::setWorldSpace(position);
         initVertices();
-
         Object::setShaders();
     }
 
@@ -24,12 +23,13 @@ namespace slt
         vec3 bottomLeft = vec3(-_width / 2, 0, -_length / 2);
         float singleQuadWidth  = _width / (float)(_numVertsX - 1);
         float singleQuadLength = _length / (float)(_numVertsZ - 1);
-        _vertices = std::make_unique<VertexPlain[]>(_numVerts);
+        _vertices = std::make_unique<VertexDefault[]>(_numVerts);
 
         for (size_t index=0; index<_numVerts; index++) {
             float xOffset = singleQuadWidth * (float)(index % _numVertsX);
             float zOffset = singleQuadLength * (float)(index / _numVertsX);
-            _vertices[index] = VertexPlain(bottomLeft + vec3(xOffset, 0, zOffset));
+            _vertices[index].position = bottomLeft + vec3(xOffset, 0, zOffset);
+            _vertices[index].normal   = vec3(0, 1, 0);
         }
 
         // INIT INDICES
@@ -49,8 +49,8 @@ namespace slt
             }
         }
 
-        Object::setVertices(VertexEnum::VERTEX_PLAIN,
-                            _vertices.get(), sizeof(VertexPlain) * _numVerts,
+        Object::setVertices(VertexEnum::VERTEX_DEFAULT,
+                            _vertices.get(), sizeof(VertexDefault) * _numVerts,
                             _indices.get(), sizeof(unsigned int) * _numIndices);
     }
 }

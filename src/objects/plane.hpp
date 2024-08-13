@@ -14,12 +14,12 @@ namespace slt
 {
     class Plane : public Object {
     public:
-        Plane(float width, float length, unsigned int numVertsX, unsigned int numVertsZ);
+        Plane(vec3 position, vec2 dimensions, vec2 vertexCounts);
     private:
         float _width, _length;
         unsigned int _numVertsX, _numVertsZ;
         size_t _numVerts, _numIndices;
-        std::unique_ptr<VertexPlain[]> _vertices;
+        std::unique_ptr<VertexDefault[]> _vertices;
         std::unique_ptr<unsigned int[]> _indices;
 
         /// initialises _vertices and _indices arrays and calls Object::setVertices()
