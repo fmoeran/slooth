@@ -19,13 +19,11 @@ int main()
     Cuboid obj({0, 0, 0}, {1, 1, 1});
     obj.setPlainColour({0.8, 0.3, 0.5});
 
-    Rect rect({0, 0, 1}, 1, 1);
-
     Plane plane({0, -0.5, 0}, {100, 100}, {100, 100});
 
     PointLight light1({1, 1, 1});
 
-    PointLight light2({-1, 1, 10});
+    DirectionalLight light2({1, -1, 1});
 
     window::setMouseLocked(true);
 //    window::toggleWireframe();
@@ -45,7 +43,6 @@ int main()
         window::fill(0, 0, 0, 1);
 
         camera.drawObject(obj);
-        camera.drawObject(rect);
         camera.drawObject(plane);
 
         window::display();
