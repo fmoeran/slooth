@@ -42,7 +42,7 @@ int main()
     //                 position
     PointLight light1({1, 1, 1});
 
-    //                       diretion
+    //                       direction
     DirectionalLight light2({1, -1, 1});
 
     window::setMouseLocked(true);
