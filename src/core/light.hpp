@@ -8,10 +8,8 @@
 #include "vertex.hpp" // vec3
 #include <array>
 
-
 namespace slt
 {
-    
     const float DEFAULT_LIGHT_AMBIENCE = 0.1,
                 DEFAULT_LIGHT_DIFFUSE  = 0.5,
                 DEFAULT_LIGHT_SPECULAR = 1.0;
@@ -40,7 +38,7 @@ namespace slt
 
     namespace lightHandler
     {
-        const unsigned int MAX_LIGHT_NUM = 10;
+        const unsigned int MAX_LIGHT_NUM = 8;
 
         /// Called automatically whenever a PointLight is created
         void registerPointLight(PointLight& light);

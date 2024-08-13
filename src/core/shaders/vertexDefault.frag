@@ -23,7 +23,7 @@ struct Light {
     float quadAtt;
 };
 
-const int MAX_LIGHT_NUM = 10;
+const int MAX_LIGHT_NUM = 8;
 
 uniform vec3  uViewPos;
 uniform float uTime;
