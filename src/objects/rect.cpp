@@ -6,10 +6,9 @@
 
 namespace slt {
     Rect::Rect(slt::vec3 position, float width, float height)
-    :  _width(width), _height(height)
+    :Object(), _width(width), _height(height)
     {
-        _worldSpace = position;
-        Object::_setDefaultValues();
+        Object::setWorldSpace(position);
         initVertices();
         Object::setShaders();
     }

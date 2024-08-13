@@ -72,6 +72,10 @@ namespace slt
         ShaderProgram _program;
         vec3 _worldSpace{}, _rotation{}, _scale{};
 
+        // When using VertexPlain
+        vec3 _plainColour;
+
+        // When using a vertex that reacts to light
         Material _material;
 
         /// When initializing the object, this sets many of the values like location and position and colour

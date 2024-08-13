@@ -50,6 +50,7 @@ namespace slt
         _worldSpace  = vec3(0);
         _rotation    = vec3(0);
         _scale       = vec3(1);
+        _plainColour = vec3(1);
     }
 
     glm::mat4 Object::getTransformMatrix() const{
@@ -97,6 +98,8 @@ namespace slt
     void Object::setPlainColour(vec3 clr) {
         material().setDiffuse(clr);
         material().setAmbience(clr);
+
+        _plainColour = clr;
     }
 
     void Object::setPlainColour(float r, float g, float b) {
@@ -109,10 +112,7 @@ namespace slt
 
     void Object::_setUniforms() {
         glUniform1f(_program.getUniformLocation("uTime"), (float)glfwGetTime());
-        int modelMatLocation = _program.getUniformLocation("uModel");
-        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, glm::value_ptr(getTransformMatrix()));
-
-        _material._setUniforms(_program);
+        glUniformMatrix4fv(_program.getUniformLocation("uModel"), 1, GL_FALSE, glm::value_ptr(getTransformMatrix()));
 
         switch (_vertices.getType()) {
             case VertexEnum::VERTEX_PLAIN:
@@ -129,9 +129,11 @@ namespace slt
     }
 
     void Object::_setPlainUniforms() {
+        glUniform3f(_program.getUniformLocation("uColour"), _plainColour.r, _plainColour.g, _plainColour.b);
     }
 
     void Object::_setDefaultUniforms() {
+        _material._setUniforms(_program);
     }
 
     Material &Object::material() {
