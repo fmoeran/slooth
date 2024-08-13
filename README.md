@@ -11,11 +11,15 @@ but with the capability to design specific renderable objects and render pipelin
 
 ## Example Program
 
-This is a quick program to create and draw a plane.
+This is a quick program to create and display a cube on a plane with two lights.
 The default camera methods allow the user to move around with WASD.
+
 ```c++
+
 #include "core/window.hpp"
 #include "core/camera.hpp"
+#include "core/light.hpp"
+#include "objects/cuboid.hpp"
 #include "objects/plane.hpp"
 
 using namespace slt;
@@ -26,15 +30,24 @@ const unsigned int SCR_HEIGHT = 600;
 int main()
 {
     window::init(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
+    Camera camera(45.0, {0, 0, 2});
 
-    Camera camera(45.0, {0, 1, -10});
+    //         position   dimensions
+    Cuboid obj({0, 0, 0}, {1, 1, 1});
+    obj.setPlainColour({0.8, 0.3, 0.5});
 
-    Plane plane(10, 10, 1000, 1000);
+    //            position     dimensions  vertexCounts
+    Plane plane({0, -0.5, 0}, {100, 100}, {100, 100});
+
+    //                 position
+    PointLight light1({1, 1, 1});
+
+    //                       diretion
+    DirectionalLight light2({1, -1, 1});
 
     window::setMouseLocked(true);
 
-    while (!window::shouldClose())
-    {
+    while (!window::shouldClose()) {
         // Input checking to unlock the cursor
         window::loadInputs();
         if (window::isPressed(Key::ESCAPE)) {
@@ -47,17 +60,14 @@ int main()
         // Displaying object
         window::fill(0, 0, 0, 1);
 
+        camera.drawObject(obj);
         camera.drawObject(plane);
 
         window::display();
     }
-
     window::terminate();
 }
 ```
 
-With the window displaying a 2D plane in a 3D traversable world:
-
 ![](images/Example.png)
-
 
