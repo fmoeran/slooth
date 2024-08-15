@@ -39,7 +39,7 @@ namespace slt::window {
     double _startupTime, _frameTime, _deltaTime;
     vec2 _mousePos, _frameMousePos, _deltaMousePos;
     bool _isFirstFrame, _isMouseLocked, _ignoreNextMouseMovement, _mouseMovedThisFrame;
-    bool _keyPressed[(size_t)Key::NUM_KEYS];
+    bool _keyPressed[(size_t) Key::NUM_KEYS];
     bool _isWireframe;
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
@@ -48,7 +48,7 @@ namespace slt::window {
         glViewport(0, 0, width, height);
     }
 
-    void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+    void mouseCallback(GLFWwindow *window, double xpos, double ypos) {
         _mousePos = {xpos, ypos};
         _mouseMovedThisFrame = true;
     }
@@ -57,7 +57,7 @@ namespace slt::window {
         std::memset(_keyPressed, 0, sizeof(_keyPressed));
     }
 
-    void init(unsigned int width, unsigned int height, char *title){
+    void init(unsigned int width, unsigned int height, char *title) {
         assert(_windowPtr == nullptr);
         loadGLFW();
 
@@ -113,7 +113,7 @@ namespace slt::window {
             if (_mouseMovedThisFrame) {
                 _ignoreNextMouseMovement = false;
             }
-        }else {
+        } else {
             _deltaMousePos = _frameMousePos - newPos;
         }
         _frameMousePos = newPos;
@@ -141,6 +141,12 @@ namespace slt::window {
     double deltaTime() {
         return _deltaTime;
     }
+
+    double fps() {
+        return 1.0/_deltaTime;
+    }
+
+
 
     void close() {
         glfwSetWindowShouldClose(_windowPtr, true);

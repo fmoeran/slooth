@@ -43,8 +43,11 @@ namespace slt::window {
     /// returns the time between initialisation and the last render of a frame (seconds)
     [[nodiscard]] double frameTime();
 
-    ///  returns the time between the most recent frame render and the one before that
+    ///  returns the time between the most recent frame render and the one before that (seconds)
     [[nodiscard]] double deltaTime();
+
+    /// returns the number of frames per second if deltaTime() was consistent.
+    [[nodiscard]] double fps();
 
     vec2 getMousePos();
 
