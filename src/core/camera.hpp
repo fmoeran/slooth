@@ -11,6 +11,12 @@
 
 namespace slt
 {
+    const vec3  DEFAULT_CAMERA_UP    = {0, 1, 0},
+                DEFAULT_CAMERA_FRONT = {0, 0, 1},
+                DEFAULT_CAMERA_RIGHT = {1, 0, 0};
+
+    const float DEFAULT_CAMERA_YAW   = 0.0,
+                DEFAULT_CAMERA_PITCH = 0.0;
 
     class Camera {
     public:
@@ -47,17 +53,12 @@ namespace slt
         /// note window.loadInputs() must be called before this to work
         void pollDefaultMovementInputs(float speed=1.0, float sensitivity=0.2);
 
-
     private:
         vec3 _position, _front, _up, _right;
         float _yaw, _pitch;  // Degrees
-        bool _autoDraw;
         glm::mat4 projection;
 
         glm::mat4 getViewMatrix();
-
-        /// Initialises all of the member variables to their default states (usually 0)
-        void _setDefaults();
 
         /// Updates _front, _right, _up.
         /// This should always be used after updating _pitch or _yaw

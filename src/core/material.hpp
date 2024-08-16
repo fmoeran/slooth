@@ -9,7 +9,7 @@
 
 namespace slt
 {
-    const vec3  DEFAULT_MATERIAL_AMBIENCE(0.2),
+    const vec3  DEFAULT_MATERIAL_AMBIENCE(1.0),
                 DEFAULT_MATERIAL_DIFFUSE(1.0),
                 DEFAULT_MATERIAL_SPECULAR(0.5);
     const float DEFAULT_MATERIAL_SHINE    = 32.0;

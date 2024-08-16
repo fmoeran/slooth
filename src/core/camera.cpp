@@ -17,13 +17,26 @@ namespace slt
     Camera::Camera(vec3 position, float fovY, float aspectRatio, float lowerRangeBound, float upperRangeBound) {
         _position = position;
         projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
-        _setDefaults();
+        _up = DEFAULT_CAMERA_UP;
+        _front = DEFAULT_CAMERA_FRONT;
+        _right = DEFAULT_CAMERA_RIGHT;
+        _yaw = DEFAULT_CAMERA_YAW;
+        _pitch = DEFAULT_CAMERA_PITCH;
+        _updateVectors();
     }
 
     Camera::Camera(float fovY, vec3 position, float lowerRangeBound, float upperRangeBound) {
         _position = position;
         projection = glm::perspective(fovY, (float)window::getWidth()/(float)window::getHeight(), lowerRangeBound, upperRangeBound);
-        _setDefaults();
+        _up = DEFAULT_CAMERA_UP;
+        _up = {0, 1, 0};
+        _front = DEFAULT_CAMERA_FRONT;
+        _front = {0, 0, 1};
+        _right = DEFAULT_CAMERA_RIGHT;
+        _right = {1, 0, 0};
+        _yaw = DEFAULT_CAMERA_YAW;
+        _pitch = DEFAULT_CAMERA_PITCH;
+        _updateVectors();
     }
 
     void Camera::drawObject(Object& obj) {
@@ -41,15 +54,6 @@ namespace slt
 
     glm::mat4 Camera::getViewMatrix() {
         return glm::lookAt(_position, _position + _front, _up);
-    }
-
-    void Camera::_setDefaults() {
-        _up = vec3(0, 1, 0);
-        _front = vec3(0, 0, 1);
-        _right = vec3(1, 0, 0);
-        _yaw = 0;
-        _pitch = 0;
-        _updateVectors();
     }
 
     vec3 Camera::getPosition() {

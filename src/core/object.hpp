@@ -16,6 +16,15 @@
 
 namespace slt
 {
+    const vec3  DEFAULT_OBJECT_POSITION  = {0, 0, 0},
+                DEFAULT_OBJECT_SCALE           = {1, 1, 1},
+                DEFAULT_OBJECT_ROTATION_VECTOR = {1, 0, 0},
+                DEFAULT_OBJECT_PLAIN_COLOUR    = DEFAULT_MATERIAL_DIFFUSE;
+
+    const float DEFAULT_OBJECT_ROTATION_ANGLE = 0.0f;
+
+    const bool DEFAULT_OBJECT_AUTO_DRAW = true;
+
     class Object {
     public:
         Object();
@@ -73,10 +82,12 @@ namespace slt
         /// Returns whether this object will be drawn by Camera::drawAll()..
         bool isAutoDrawing();
 
+        [[nodiscard]] glm::mat4 getTransformMatrix() const;
     private:
         VertexArray _vertices;
         ShaderProgram _program;
-        vec3 _worldSpace{}, _rotation{}, _scale{};
+        vec3 _worldSpace{}, _rotationVector{}, _scale{};
+        float _rotationAngle; // radians
         bool _autoDraw;
         // When using VertexPlain
         vec3 _plainColour;
@@ -97,7 +108,6 @@ namespace slt
          /// Object._program.use() must be called before this with the uniforms set
          void _draw();
 
-        [[nodiscard]] glm::mat4 getTransformMatrix() const;
 
         friend class Camera;
 

@@ -13,6 +13,7 @@
 namespace slt
 {
 
+
     namespace files
     {
         std::map<VertexEnum, std::string> vertex {
@@ -27,6 +28,16 @@ namespace slt
         };
     }
 
+
+    Object::Object() {
+        window::registerObject(*this);
+        _worldSpace     = DEFAULT_OBJECT_POSITION;
+        _scale          = DEFAULT_OBJECT_SCALE;
+        _rotationVector = DEFAULT_OBJECT_ROTATION_VECTOR;
+        _rotationAngle  = DEFAULT_OBJECT_ROTATION_ANGLE;
+        _plainColour    = DEFAULT_OBJECT_PLAIN_COLOUR;
+        _autoDraw       = DEFAULT_OBJECT_AUTO_DRAW;
+    }
 
     void Object::setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize) {
         _vertices = VertexArray(vertices, vertSize, indices, indSize, vertexType);
@@ -49,10 +60,9 @@ namespace slt
 
     glm::mat4 Object::getTransformMatrix() const{
         glm::mat4 matrix(1);
-        //float rotationMag = _rotation.
-        //matrix = glm::rotate(matrix, _rotation);
-        matrix = glm::scale(matrix, _scale);
         matrix = glm::translate(matrix, _worldSpace);
+        matrix = glm::rotate(matrix, _rotationAngle, _rotationVector);
+        matrix = glm::scale(matrix, _scale);
         return matrix;
     }
 
@@ -72,14 +82,6 @@ namespace slt
         return _scale;
     }
 
-    Object::Object() {
-        window::registerObject(*this);
-        _worldSpace  = vec3(0);
-        _rotation    = vec3(0);
-        _scale       = vec3(1);
-        _plainColour = vec3(1);
-        _autoDraw    = true;
-    }
 
     void Object::translate(vec3 vec) {
         setWorldSpace(getWorldSpace() + vec);
