@@ -14,12 +14,16 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-add_executable(slooth src/main.cpp ${CORE_FILES} ${OBJECT_FILES} ${GLAD_FILES})
+add_executable(slooth src/main.cpp ${CORE_FILES} ${OBJECT_FILES} ${GLAD_FILES} )
 
 
 # glad
 
 target_include_directories(slooth PRIVATE libraries/glad/include)
+
+# stb
+
+target_include_directories(slooth PRIVATE libraries/stb)
 
 # glfw
 

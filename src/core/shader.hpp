@@ -41,8 +41,9 @@ namespace slt
     public:
         ShaderProgram();
         void addShader(Shader& shader);
-        // must be called directly after adding ALL the shaders
+        /// must be called directly after adding ALL the shaders
         void buildProgram();
+
         void use();
 
         [[nodiscard]] int getUniformLocation(std::string name) const;
