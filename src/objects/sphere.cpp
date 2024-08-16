@@ -5,7 +5,6 @@
 #include "sphere.hpp"
 
 #include <cmath>
-#include <iostream>
 
 namespace slt
 {
@@ -37,8 +36,6 @@ namespace slt
 
                 pos.z = sin(yaw) * pos.x;
                 pos.x = cos(yaw) * pos.x;
-
-                std::cout << pos.x*pos.x + pos.y*pos.y + pos.z*pos.z << std::endl;
 
                 vec3 normal = pos - vec3({0, height, 0});
                 normal = vec3({0, 0, 1});
