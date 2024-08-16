@@ -41,6 +41,7 @@ namespace slt::window {
     bool _isFirstFrame, _isMouseLocked, _ignoreNextMouseMovement, _mouseMovedThisFrame;
     bool _keyPressed[(size_t) Key::NUM_KEYS];
     bool _isWireframe;
+    std::vector<Object*> _objectList;
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
         // make sure the viewport matches the new window dimensions; note that width and
@@ -105,6 +106,11 @@ namespace slt::window {
         glClearColor(r, g, b, a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
+
+    std::vector<Object*> objectList() {
+        return _objectList;
+    }
+
 
     void updateMouseVariables() {
         vec2 newPos = _mousePos;
@@ -228,5 +234,7 @@ namespace slt::window {
         glfwSwapInterval((int)shouldCap);
     }
 
-
+    void registerObject(Object& obj) {
+        _objectList.push_back(&obj);
+    }
 } // namespace slt::window

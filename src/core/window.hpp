@@ -12,6 +12,7 @@
 
 #include "keys.hpp"
 #include "vertex.hpp"
+#include "object.hpp"
 
 
 namespace slt::window {
@@ -49,6 +50,9 @@ namespace slt::window {
     /// returns the number of frames per second if deltaTime() was consistent.
     [[nodiscard]] double fps();
 
+    /// returns a vector of all of the objects in the scene.
+    [[nodiscard]] std::vector<Object*> objectList();
+
     vec2 getMousePos();
 
     vec2 getDeltaMousePos();
@@ -67,5 +71,9 @@ namespace slt::window {
     void close();
 
     void terminate();
+
+    /// Called automatically by every object to add it to the objectList.
+    void registerObject(Object& obj);
+
 }
 

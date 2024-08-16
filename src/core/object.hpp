@@ -16,7 +16,7 @@
 
 namespace slt
 {
- class Object {
+    class Object {
     public:
         Object();
 
@@ -67,40 +67,45 @@ namespace slt
 
         /// returns whether the object reacts to light.
         bool usesLights();
-    protected:
+
+        /// this determines whether that Camera::drawAll should draw this object.
+        void setAutoDraw(bool shouldAuto);
+        /// Returns whether this object will be drawn by Camera::drawAll()..
+        bool isAutoDrawing();
+
+    private:
         VertexArray _vertices;
         ShaderProgram _program;
         vec3 _worldSpace{}, _rotation{}, _scale{};
-
+        bool _autoDraw;
         // When using VertexPlain
         vec3 _plainColour;
 
         // When using a vertex that reacts to light
         Material _material;
 
-        /// When initializing the object, this sets many of the values like location and position and colour
-        /// to default values (usually 0 or 1).
+         /// When initializing the object, this sets many of the values like location and position and colour
+         /// to default values (usually 0 or 1).
         void _setDefaultValues();
 
          /// Sets the basic uniforms like uTime. \n
          /// Also sets the uniforms for specific vertex types like uColour for VERTEX_PLAIN
-         void _setUniforms();
+        void _setUniforms();
 
-         // Sets the uniform values for different types of vertices
-         void _setPlainUniforms();
-         void _setDefaultUniforms();
- private:
+        // Sets the uniform values for different types of vertices
+        void _setPlainUniforms();
+        void _setDefaultUniforms();
 
-     /// Draws the object to the current un-rendered screen. \n
-     /// Should only be called by Camera::drawObject. \n
-     /// Object._program.use() must be called before this with the uniforms set
-     void _draw();
+         /// Draws the object to the current un-rendered screen. \n
+         /// Should only be called by Camera::drawObject. \n
+         /// Object._program.use() must be called before this with the uniforms set
+         void _draw();
 
-     [[nodiscard]] glm::mat4 getTransformMatrix() const;
+        [[nodiscard]] glm::mat4 getTransformMatrix() const;
 
-     friend class Camera;
+        friend class Camera;
 
- };
+    };
 }
 
 

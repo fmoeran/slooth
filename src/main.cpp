@@ -48,9 +48,7 @@ int main()
         // Displaying object
         window::fill(0, 0, 0, 1);
 
-        camera.drawObject(obj);
-        camera.drawObject(plane);
-        camera.drawObject(sphere);
+        camera.drawAll();
 
         window::display();
     }

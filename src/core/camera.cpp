@@ -4,11 +4,11 @@
 #include "camera.hpp"
 #include "object.hpp"
 #include "light.hpp"
+#include "window.hpp"
 
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-#include <iostream>
 #include <algorithm>
 
 namespace slt
@@ -128,6 +128,14 @@ namespace slt
         glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projection));
         glUniform3f(viewPosLocation, getPosition().x, getPosition().y, getPosition().z);
+    }
+
+    void Camera::drawAll() {
+        for (Object* obj : window::objectList()) {
+            if (obj->isAutoDrawing()) {
+                drawObject(*obj);
+            }
+        }
     }
 }
 

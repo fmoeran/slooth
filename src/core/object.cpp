@@ -3,6 +3,7 @@
 //
 
 #include "object.hpp"
+#include "window.hpp"
 
 #include "glm/gtc/type_ptr.hpp"
 
@@ -51,6 +52,7 @@ namespace slt
         _rotation    = vec3(0);
         _scale       = vec3(1);
         _plainColour = vec3(1);
+        _autoDraw    = true;
     }
 
     glm::mat4 Object::getTransformMatrix() const{
@@ -79,6 +81,7 @@ namespace slt
     }
 
     Object::Object() {
+        window::registerObject(*this);
         _setDefaultValues();
     }
 
@@ -142,5 +145,13 @@ namespace slt
 
     bool Object::usesLights() {
         return _vertices.getType() == VertexEnum::VERTEX_DEFAULT || _vertices.getType() == VertexEnum::VERTEX_TEXTURED;
+    }
+
+    void Object::setAutoDraw(bool shouldAuto) {
+        _autoDraw = shouldAuto;
+    }
+
+    bool Object::isAutoDrawing() {
+        return _autoDraw;
     }
 }

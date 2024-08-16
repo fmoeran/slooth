@@ -46,7 +46,6 @@ namespace slt{
 
     Cuboid::Cuboid(vec3 position, vec3 dimensions)
     : Object(), _dimensions(dimensions){
-        _worldSpace = position;
         initVertices();
         Object::setShaders();
         Object::setWorldSpace(position);

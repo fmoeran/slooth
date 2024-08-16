@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include "window.hpp"
 #include "object.hpp"
 
 #include "glm/glm.hpp"
@@ -20,6 +19,9 @@ namespace slt
         explicit Camera(float fovY=45, vec3 position={0, 0, 0}, float lowerRangeBound=0.1, float upperRangeBound=100);
 
         void drawObject(Object& obj);
+
+        /// Draws every object in the scene that wants to be drawn.
+        void drawAll();
 
         /// translates the camera's positions relative to global coordinates
         void translate(vec3 vec);
@@ -48,9 +50,8 @@ namespace slt
 
     private:
         vec3 _position, _front, _up, _right;
-
         float _yaw, _pitch;  // Degrees
-
+        bool _autoDraw;
         glm::mat4 projection;
 
         glm::mat4 getViewMatrix();
