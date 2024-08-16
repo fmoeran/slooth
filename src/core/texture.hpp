@@ -10,7 +10,10 @@ namespace slt
 {
     class Texture {
     public:
+        Texture();
         Texture(std::string fileName);
+
+        void load(std::string fileName);
 
         void use();
 
