@@ -1,9 +1,9 @@
 #include "core/window.hpp"
 #include "core/camera.hpp"
 #include "core/light.hpp"
-#include "objects/rect.hpp"
 #include "objects/cuboid.hpp"
 #include "objects/plane.hpp"
+#include "objects/sphere.hpp"
 
 using namespace slt;
 
@@ -13,11 +13,17 @@ const unsigned int SCR_HEIGHT = 600;
 int main()
 {
     window::init(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
+
+    window::capFPS(30);
+
     Camera camera(45.0, {0, 0, 2});
     camera.setYaw(180);
 
     Cuboid obj({0, 0, 0}, {1, 1, 1});
     obj.setPlainColour({0.8, 0.3, 0.5});
+
+    UVSphere sphere({-1, 1, -1}, 1, 100);
+    sphere.setPlainColour({0.4, 0.8, 0.6});
 
     Plane plane({0, -0.5, 0}, {100, 100}, {100, 100});
 
@@ -44,6 +50,7 @@ int main()
 
         camera.drawObject(obj);
         camera.drawObject(plane);
+        camera.drawObject(sphere);
 
         window::display();
     }
