@@ -60,8 +60,7 @@ int main()
         // Displaying object
         window::fill(0, 0, 0, 1);
 
-        camera.drawObject(obj);
-        camera.drawObject(plane);
+        camera.drawAll();
 
         window::display();
     }
