@@ -7,7 +7,7 @@
 
 namespace slt
 {
-    Plane::Plane(vec3 position, vec2 dimensions, vec2 vertexCounts)
+    Plane::Plane(vec3 position, vec2 dimensions, ivec2 vertexCounts)
             :Object(), _width(dimensions.x), _length(dimensions.y), _numVertsX(vertexCounts.x), _numVertsZ(vertexCounts.y),
             _numVerts(vertexCounts.x * vertexCounts.y), _numIndices(2 * 3 * (_numVertsX - 1) * (_numVertsZ - 1)){
         Object::setWorldSpace(position);
@@ -43,7 +43,7 @@ namespace slt
                 _indices[index]   = vertexIndex;
                 _indices[index+1] = vertexIndex + 1;
                 _indices[index+2] = vertexIndex + 1 + _numVertsX;
-                _indices[index+3]   = vertexIndex;
+                _indices[index+3] = vertexIndex;
                 _indices[index+4] = vertexIndex + _numVertsX;
                 _indices[index+5] = vertexIndex + 1 + _numVertsX;
             }

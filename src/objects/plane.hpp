@@ -14,7 +14,7 @@ namespace slt
 {
     class Plane : public Object {
     public:
-        Plane(vec3 position, vec2 dimensions, vec2 vertexCounts);
+        Plane(vec3 position, vec2 dimensions, ivec2 vertexCounts);
     private:
         float _width, _length;
         unsigned int _numVertsX, _numVertsZ;
