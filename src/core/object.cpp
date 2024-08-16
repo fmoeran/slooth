@@ -149,7 +149,12 @@ namespace slt
         _autoDraw = shouldAuto;
     }
 
-    bool Object::isAutoDrawing() {
+    bool Object::isAutoDrawing() const {
         return _autoDraw;
+    }
+
+    void Object::setRotation(float angle, vec3 vec) {
+        _rotationAngle  = angle;
+        _rotationVector = vec;
     }
 }

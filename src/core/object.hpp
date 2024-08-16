@@ -53,6 +53,12 @@ namespace slt
         void setScale(vec3 scales);
         vec3 getScale();
 
+        /// Sets the rotation of the object, rotated from the original orientation (not the current orientation)..
+        /// \param angle the angle of rotation in radians.
+        /// \param vec the vector to rotate around
+        void setRotation(float angle, vec3 vec);
+
+
         /// Sets the colour of an object without a texture.
         /// sets the diffuse and ambience of the object's material to this colour
         /// \param clr rgba colour of object (each value 0-1)
@@ -80,7 +86,7 @@ namespace slt
         /// this determines whether that Camera::drawAll should draw this object.
         void setAutoDraw(bool shouldAuto);
         /// Returns whether this object will be drawn by Camera::drawAll()..
-        bool isAutoDrawing();
+        bool isAutoDrawing() const;
 
         [[nodiscard]] glm::mat4 getTransformMatrix() const;
     private:
