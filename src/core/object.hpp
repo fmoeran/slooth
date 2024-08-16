@@ -84,12 +84,8 @@ namespace slt
         // When using a vertex that reacts to light
         Material _material;
 
-         /// When initializing the object, this sets many of the values like location and position and colour
-         /// to default values (usually 0 or 1).
-        void _setDefaultValues();
-
-         /// Sets the basic uniforms like uTime. \n
-         /// Also sets the uniforms for specific vertex types like uColour for VERTEX_PLAIN
+        /// Sets the basic uniforms like uTime. \n
+        /// Also sets the uniforms for specific vertex types like uColour for VERTEX_PLAIN
         void _setUniforms();
 
         // Sets the uniform values for different types of vertices
