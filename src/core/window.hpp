@@ -49,9 +49,6 @@ namespace slt::window {
     ///  returns the time between the most recent frame render and the one before that (seconds)
     [[nodiscard]] double deltaTime();
 
-    /// returns the number of frames per second if deltaTime() was consistent.
-    [[nodiscard]] double fps();
-
     /// returns a null shader.
     [[nodiscard]] ShaderProgram& getNullShader();
 

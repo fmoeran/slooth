@@ -160,15 +160,9 @@ namespace slt::window {
         return _deltaTime;
     }
 
-    double fps() {
-        return 1.0/_deltaTime;
-    }
-
     ShaderProgram& getNullShader() {
         return *_nullShaderProgram;
     }
-
-
 
     void close() {
         glfwSetWindowShouldClose(_windowPtr, true);
