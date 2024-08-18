@@ -24,7 +24,6 @@ namespace slt
             for (size_t u=0; u<=_precision; u++) { // col
                 size_t ind = v * (_precision + 1) + u;
 
-                float height = _radius * (float) v / (float) _precision;
                 vec3 pos(0);
 
                 float pitch = M_PI * (float) v / (float) _precision - M_PI / 2;
@@ -36,9 +35,7 @@ namespace slt
                 pos.z = sin(yaw) * pos.x;
                 pos.x = cos(yaw) * pos.x;
 
-                vec3 normal = pos - vec3({0, height, 0});
-                normal = vec3({0, 0, 1});
-                _vertices[ind].position = pos;
+                _vertices[ind].position = pos * _radius;
                 _vertices[ind].normal   = pos;
             }
         }
