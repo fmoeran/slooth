@@ -16,7 +16,7 @@ namespace slt
 
     Camera::Camera(vec3 position, float fovY, float aspectRatio, float lowerRangeBound, float upperRangeBound) {
         _position = position;
-        projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
+        _projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
         _up = DEFAULT_CAMERA_UP;
         _front = DEFAULT_CAMERA_FRONT;
         _right = DEFAULT_CAMERA_RIGHT;
@@ -27,7 +27,7 @@ namespace slt
 
     Camera::Camera(float fovY, vec3 position, float lowerRangeBound, float upperRangeBound) {
         _position = position;
-        projection = glm::perspective(fovY, (float)window::getWidth()/(float)window::getHeight(), lowerRangeBound, upperRangeBound);
+        setPerspective(fovY, (float)window::getWidth()/(float)window::getHeight(), lowerRangeBound, upperRangeBound);
         _up = DEFAULT_CAMERA_UP;
         _up = {0, 1, 0};
         _front = DEFAULT_CAMERA_FRONT;
@@ -48,11 +48,23 @@ namespace slt
         obj._draw();
     }
 
+    void Camera::setPerspective(float fovY, float lowerRangeBound, float upperRangeBound) {
+        setPerspective(fovY, (float)window::getWidth() / (float)window::getHeight(), lowerRangeBound, upperRangeBound);
+    }
+
+    void Camera::setPerspective(float fovY, float aspectRatio, float lowerRangeBound, float upperRangeBound) {
+        _projection = glm::perspective(fovY, aspectRatio, lowerRangeBound, upperRangeBound);
+    }
+
+    void Camera::setOrthographic(float left, float right, float bottom, float top, float lowerRangeBound, float upperRangeBound) {
+        _projection = glm::ortho(left, right, bottom, top, 0.1f, 100.0f);
+    }
+
     void Camera::translate(vec3 vec) {
         _position += vec;
     }
 
-    glm::mat4 Camera::getViewMatrix() {
+    glm::mat4 Camera::_getViewMatrix() {
         return glm::lookAt(_position, _position + _front, _up);
     }
 
@@ -127,10 +139,10 @@ namespace slt
         int projMatLocation = program.getUniformLocation("uProjection");
         int viewPosLocation  = program.getUniformLocation("uViewPos");
 
-        glm::mat4 view = getViewMatrix();
+        glm::mat4 view = _getViewMatrix();
 
         glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(_projection));
         glUniform3f(viewPosLocation, getPosition().x, getPosition().y, getPosition().z);
     }
 

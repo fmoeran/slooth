@@ -29,6 +29,21 @@ namespace slt
         /// Draws every object in the scene that wants to be drawn.
         void drawAll();
 
+        /// Sets the camera to have a perspective _projection.
+        /// \param fovY The angle the camera sees in the y axis.
+        /// \param lowerRangeBound the minimum view distance
+        /// \param upperRangeBound the maximum view distance
+        void setPerspective(float fovY=45, float lowerRangeBound=0.1, float upperRangeBound=100);
+
+        /// Sets the camera to have a perspective _projection.
+        /// \param fovY The angle the camera sees in the y axis.
+        /// \param aspectRatio The aspect ratiu, fovx/fovY.
+        /// \param lowerRangeBound the minimum view distance
+        /// \param upperRangeBound the maximum view distance
+        void setPerspective(float fovY=45, float aspectRatio= 16.0 / 9.0, float lowerRangeBound=0.1, float upperRangeBound=100);
+
+        void setOrthographic(float left=-1, float right=1, float bottom=-1, float top=1, float lowerRangeBound=0.1, float upperRangeBound=100);
+
         /// translates the camera's positions relative to global coordinates
         void translate(vec3 vec);
 
@@ -56,15 +71,15 @@ namespace slt
     private:
         vec3 _position, _front, _up, _right;
         float _yaw, _pitch;  // Degrees
-        glm::mat4 projection;
+        glm::mat4 _projection;
 
-        glm::mat4 getViewMatrix();
+        glm::mat4 _getViewMatrix();
 
         /// Updates _front, _right, _up.
         /// This should always be used after updating _pitch or _yaw
         void _updateVectors();
 
-        /// Sets the shader uniform values specific to the camera. e.g. view & projection matrices
+        /// Sets the shader uniform values specific to the camera. e.g. view & _projection matrices
         /// \param program the shader to set the uniforms to.
         void _setUniforms(ShaderProgram& program);
 
