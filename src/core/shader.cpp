@@ -90,9 +90,16 @@ namespace slt
         glUseProgram(_ID);
     }
 
-    int ShaderProgram::getUniformLocation(std::string name) const {
+    int ShaderProgram::getUniformLocation(std::string name) {
         if (isNull()) throw NULL_SHADER_EXCEPTION;
-        return glGetUniformLocation(_ID, name.c_str());
+        auto it = _uniformLocations.find(name);
+        if (it != _uniformLocations.end()) {
+            return it->second;
+        }else {
+            int location = glGetUniformLocation(_ID, name.c_str());
+            _uniformLocations[name] = location;
+        }
+        return _uniformLocations[name];
     }
 
     bool ShaderProgram::isNull() const {
@@ -101,6 +108,10 @@ namespace slt
 
     void ShaderProgram::makeNull() {
         _ID = -1;
+    }
+
+    int ShaderProgram::numUniformsRegistered() {
+        return _uniformLocations.size();
     }
 
 }

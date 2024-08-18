@@ -41,6 +41,7 @@ namespace slt
 
     void Camera::drawObject(Object& obj) {
         obj._useShaderProgram();
+
         _setUniforms(obj._program);
 
         if (obj.usesLights()) lightHandler::setUniforms(obj._program);

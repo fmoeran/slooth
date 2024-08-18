@@ -4,6 +4,7 @@
 
 #include "light.hpp"
 #include <string>
+#include <iostream>
 
 namespace slt
 {
@@ -95,7 +96,7 @@ namespace slt
             numDirectionalLights++;
         }
 
-        void setUniforms(ShaderProgram program) {
+        void setUniforms(ShaderProgram& program) {
             // POINT LIGHTS
             glUniform1i(program.getUniformLocation("uNumPointLights"), numPointLights);
             for (int index = 0; index < numPointLights; index++) {

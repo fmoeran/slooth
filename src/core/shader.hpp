@@ -11,6 +11,8 @@
 #include <string>
 #include <map>
 #include <string>
+#include <set>
+
 namespace slt
 {
 
@@ -48,15 +50,19 @@ namespace slt
         void use();
 
 
-        [[nodiscard]] int getUniformLocation(std::string name) const;
+        [[nodiscard]] int getUniformLocation(std::string name);
 
         /// Will ensure that the program cannot be used
         void makeNull();
 
         [[nodiscard]] bool isNull() const;
+
+        /// The number of uniforms that the shader is currently aware of on the CPU
+        int numUniformsRegistered();
     private:
         unsigned int _ID;
         std::map<std::string, int> _uniformLocations;
+        std::set<std::string> _seenUniforms;
 
         friend class ShaderProgram;
     };

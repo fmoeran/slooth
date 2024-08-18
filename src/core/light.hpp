@@ -60,6 +60,6 @@ namespace slt
         /// Called automatically whenever a DirectionalLight is created
         void registerDirectionalLight(DirectionalLight& light);
 
-        void setUniforms(ShaderProgram program);
+        void setUniforms(ShaderProgram& program);
     }
 }
