@@ -10,7 +10,6 @@ namespace slt {
     {
         Object::setWorldSpace(position);
         initVertices();
-        Object::setShaders();
     }
 
     void Rect::initVertices() {

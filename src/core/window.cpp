@@ -34,6 +34,7 @@ void loadGLFW() {
 }
 
 namespace slt::window {
+    bool _isInit = false;
     GLFWwindow *_windowPtr = nullptr;
     unsigned int _width, _height;
     double _startupTime, _frameTime, _deltaTime;
@@ -42,6 +43,7 @@ namespace slt::window {
     bool _keyPressed[(size_t) Key::NUM_KEYS];
     bool _isWireframe;
     std::vector<Object*> _objectList;
+    std::unique_ptr<ShaderProgram> _nullShaderProgram;
 
     void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
         // make sure the viewport matches the new window dimensions; note that width and
@@ -86,8 +88,18 @@ namespace slt::window {
 
         loadGlad();
 
-
         glEnable(GL_DEPTH_TEST);
+
+        _nullShaderProgram = std::make_unique<ShaderProgram>();
+        _nullShaderProgram->makeNull();
+
+        _isInit = true;
+
+        initObjectPremades();
+    }
+
+    bool isInit() {
+        return _isInit;
     }
 
     unsigned int getHeight() {
@@ -150,6 +162,10 @@ namespace slt::window {
 
     double fps() {
         return 1.0/_deltaTime;
+    }
+
+    ShaderProgram& getNullShader() {
+        return *_nullShaderProgram;
     }
 
 

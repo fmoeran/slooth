@@ -14,7 +14,6 @@ namespace slt
     _numVerts((_precision+1)*(_precision+1)), _numIndices(2 * 3 * _precision * _precision) {
         setWorldSpace(position);
         initVertices();
-        Object::setShaders();
     }
 
     void UVSphere::initVertices() {

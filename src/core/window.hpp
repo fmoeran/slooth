@@ -18,6 +18,8 @@
 namespace slt::window {
     void init(unsigned int width, unsigned int height, char *title = (char*)"");
 
+    bool isInit();
+
     bool shouldClose();
 
     void loadInputs();
@@ -49,6 +51,9 @@ namespace slt::window {
 
     /// returns the number of frames per second if deltaTime() was consistent.
     [[nodiscard]] double fps();
+
+    /// returns a null shader.
+    [[nodiscard]] ShaderProgram& getNullShader();
 
     /// returns a vector of all of the objects in the scene.
     [[nodiscard]] std::vector<Object*> objectList();

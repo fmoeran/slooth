@@ -14,6 +14,7 @@
 namespace slt
 {
 
+
     enum class ShaderType {
         FRAG,
         VERT
@@ -46,10 +47,18 @@ namespace slt
 
         void use();
 
+
         [[nodiscard]] int getUniformLocation(std::string name) const;
+
+        /// Will ensure that the program cannot be used
+        void makeNull();
+
+        [[nodiscard]] bool isNull() const;
     private:
         unsigned int _ID;
         std::map<std::string, int> _uniformLocations;
+
+        friend class ShaderProgram;
     };
 }
 

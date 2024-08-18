@@ -25,6 +25,9 @@ namespace slt
 
     const bool DEFAULT_OBJECT_AUTO_DRAW = true;
 
+    /// Called by window::init().
+    void initObjectPremades();
+
     class Object {
     public:
         Object();
@@ -37,12 +40,14 @@ namespace slt
         /// \param indSize number of bytes in indices
         void setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize);
 
-        /// Assigns the specific vertex and fragment shader to use
-        /// \param vertexShader relative path to vertex shader, "" sets it to the default shader for the object's vertex type
-        /// \param fragmentShader relative path to fragment shader, "" sets it to the default shader for the object's vertex type
-        void setShaders(std::string vertexShader = "", std::string fragmentShader = "");
+        /// Will assign a premade shader program to the object.
+        /// The shader program is chosen depending on the tpe of vertex given to setVertices.
+        /// This is automatically called during setVertices if a program has not already been set.
+        void setShaderProgram();
 
-        void useShaderProgram();
+        /// Assigns a shader program to the object.
+        /// \param program A shader program with buildProgram already called.
+        void setShaderProgram(ShaderProgram& program);
 
         void refreshVertices();
 
@@ -91,7 +96,7 @@ namespace slt
         [[nodiscard]] glm::mat4 getTransformMatrix() const;
     private:
         VertexArray _vertices;
-        ShaderProgram _program;
+        ShaderProgram& _program;
         vec3 _worldSpace{}, _rotationVector{}, _scale{};
         float _rotationAngle; // radians
         bool _autoDraw;
@@ -100,6 +105,8 @@ namespace slt
 
         // When using a vertex that reacts to light
         Material _material;
+
+        void _useShaderProgram();
 
         /// Sets the basic uniforms like uTime. \n
         /// Also sets the uniforms for specific vertex types like uColour for VERTEX_PLAIN
@@ -113,7 +120,6 @@ namespace slt
          /// Should only be called by Camera::drawObject. \n
          /// Object._program.use() must be called before this with the uniforms set
          void _draw();
-
 
         friend class Camera;
 

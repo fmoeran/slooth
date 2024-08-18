@@ -13,7 +13,6 @@
 namespace slt
 {
 
-
     namespace files
     {
         std::map<VertexEnum, std::string> vertex {
@@ -28,8 +27,48 @@ namespace slt
         };
     }
 
+    namespace premades
+    {
+        struct PremadeShader {
+            PremadeShader() : program() {}
 
-    Object::Object() {
+            explicit PremadeShader(VertexEnum vertexType) : program() {
+                Shader vertex(files::vertex[vertexType], ShaderType::VERT);
+                Shader fragment(files::fragment[vertexType], ShaderType::FRAG);
+                program.addShader(vertex);
+                program.addShader(fragment);
+                program.buildProgram();
+            }
+            ShaderProgram program;
+        };
+
+        PremadeShader vertPlain;
+        PremadeShader vertColoured;
+        PremadeShader vertDefault;
+
+
+        ShaderProgram& getProgram(VertexEnum type) {
+            switch (type) {
+                case VertexEnum::VERTEX_PLAIN:
+                    return vertPlain.program;
+                case VertexEnum::VERTEX_COLORED:
+                    return vertColoured.program;
+                case VertexEnum::VERTEX_DEFAULT:
+                    return vertDefault.program;
+                case VertexEnum::VERTEX_TEXTURED:
+                    return window::getNullShader();
+            }
+        }
+    }
+
+    void initObjectPremades() {
+        using namespace premades;
+        vertPlain = PremadeShader(VertexEnum::VERTEX_PLAIN);
+        vertColoured = PremadeShader(VertexEnum::VERTEX_COLORED);
+        vertDefault = PremadeShader(VertexEnum::VERTEX_DEFAULT);
+    }
+
+    Object::Object(): _program(window::getNullShader()) {
         window::registerObject(*this);
         _worldSpace     = DEFAULT_OBJECT_POSITION;
         _scale          = DEFAULT_OBJECT_SCALE;
@@ -41,17 +80,15 @@ namespace slt
 
     void Object::setVertices(VertexEnum vertexType, void *vertices, size_t vertSize, void *indices, size_t indSize) {
         _vertices = VertexArray(vertices, vertSize, indices, indSize, vertexType);
+        if (_program.isNull()) setShaderProgram();
     }
 
-    void Object::setShaders(std::string vertexShader, std::string fragmentShader) {
-        if (vertexShader.empty()) vertexShader = files::vertex[_vertices.getType()];
-        if (fragmentShader.empty()) fragmentShader = files::fragment[_vertices.getType()];
-        Shader vert = Shader(vertexShader, ShaderType::VERT);
-        Shader frag = Shader(fragmentShader, ShaderType::FRAG);
-        _program = ShaderProgram();
-        _program.addShader(vert);
-        _program.addShader(frag);
-        _program.buildProgram();
+    void Object::setShaderProgram() {
+        setShaderProgram(premades::getProgram(_vertices.getType()));
+    }
+
+    void Object::setShaderProgram(ShaderProgram &program) {
+        _program = program;
     }
 
     void Object::_draw(){
@@ -91,7 +128,7 @@ namespace slt
         _vertices.refresh();
     }
 
-    void Object::useShaderProgram() {
+    void Object::_useShaderProgram() {
         _program.use();
         _setUniforms();
     }
@@ -157,4 +194,5 @@ namespace slt
         _rotationAngle  = angle;
         _rotationVector = vec;
     }
+
 }

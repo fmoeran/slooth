@@ -5,6 +5,8 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+#include "window.hpp"
+
 #include "shader.hpp"
 #include <fstream>
 #include <sstream>
@@ -14,9 +16,11 @@
 
 namespace slt
 {
+    std::runtime_error NULL_SHADER_EXCEPTION = std::runtime_error("Use of null shader");
 
     Shader::Shader(std::string fileLocation, ShaderType shaderType)
-            :_location(std::move(fileLocation)), _type(shaderType), _shader(0){
+            :_shader(0), _location(std::move(fileLocation)), _type(shaderType){
+        if (!window::isInit()) throw std::runtime_error("Creating a shader before window initialisation.");
         load();
         compile();
     }
@@ -67,23 +71,36 @@ namespace slt
     }
 
     ShaderProgram::ShaderProgram() {
-        _ID = glCreateProgram();
+        if (!window::isInit())  makeNull();
+        else _ID = glCreateProgram();
     }
 
     void ShaderProgram::addShader(Shader& shader){
+        if (isNull()) throw NULL_SHADER_EXCEPTION;
         glAttachShader(_ID, shader._shader);
     }
 
     void ShaderProgram::buildProgram(){
+        if (isNull()) throw NULL_SHADER_EXCEPTION;
         glLinkProgram(_ID);
     }
 
     void ShaderProgram::use(){
+        if (isNull()) throw NULL_SHADER_EXCEPTION;
         glUseProgram(_ID);
     }
 
     int ShaderProgram::getUniformLocation(std::string name) const {
+        if (isNull()) throw NULL_SHADER_EXCEPTION;
         return glGetUniformLocation(_ID, name.c_str());
+    }
+
+    bool ShaderProgram::isNull() const {
+        return _ID == -1;
+    }
+
+    void ShaderProgram::makeNull() {
+        _ID = -1;
     }
 
 }

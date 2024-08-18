@@ -44,10 +44,14 @@ namespace slt{
 
     };
 
+    Cuboid::Cuboid()
+    : Object(), _dimensions({1, 1, 1}){
+        initVertices();
+    }
+
     Cuboid::Cuboid(vec3 position, vec3 dimensions)
     : Object(), _dimensions(dimensions){
         initVertices();
-        Object::setShaders();
         Object::setWorldSpace(position);
     }
 
@@ -69,4 +73,5 @@ namespace slt{
                             _vertices, sizeof(VertexDefault) * _numVerts,
                             _indices, sizeof(unsigned int) * _numIndices);
     }
+
 }

@@ -12,7 +12,6 @@ namespace slt
             _numVerts(vertexCounts.x * vertexCounts.y), _numIndices(2 * 3 * (_numVertsX - 1) * (_numVertsZ - 1)){
         Object::setWorldSpace(position);
         initVertices();
-        Object::setShaders();
     }
 
     void Plane::initVertices() {

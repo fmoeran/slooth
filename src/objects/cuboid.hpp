@@ -10,6 +10,7 @@ namespace slt {
 
     class Cuboid : public Object {
     public:
+        Cuboid();
         /// A cuboid object.
         /// @param position (x,y,z) position of the cuboid.
         /// @param dimensions (width, height, length)
