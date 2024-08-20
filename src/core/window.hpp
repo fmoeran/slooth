@@ -14,13 +14,12 @@
 #include "vertex.hpp"
 #include "object.hpp"
 
-
 namespace slt::window {
     /// Initialises slooth. Must be called before ANYTHING in slooth is used.
     void init(unsigned int width, unsigned int height, std::string title = "");
 
     /// Whether window::init has been called.
-    ///This is mainly used in the internals of Slooth to ensure no OpenGL functionality is used before it has been registered
+    /// This is mainly used in the internals of Slooth to ensure no OpenGL functionality is used before it has been registered
     bool isInit();
 
     /// whether the user has clicked the close window button OR if window::close was called
@@ -91,7 +90,8 @@ namespace slt::window {
     /// returns whether slooth is currently displaying only the wireframes
     bool wireFrame();
 
-    /// limits the display rate of slooth
+    /// Limits (or stops the limiting of) slooth's FPS to the display rate's
+    /// \param shouldCap Whether the cap should be done.
     void capFPS(bool shouldCap);
 
     /// returns the FPS of the window. Technically 1/window::deltaTime()

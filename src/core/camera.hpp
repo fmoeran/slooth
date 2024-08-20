@@ -24,48 +24,69 @@ namespace slt
         explicit Camera(vec3 position={0.0, 0.0, 0.0}, float fovY=45, float aspectRatio=16.0/9.0, float lowerRangeBound=0.1, float upperRangeBound=100);
         explicit Camera(float fovY=45, vec3 position={0, 0, 0}, float lowerRangeBound=0.1, float upperRangeBound=100);
 
+        /// Draws the given object onto the buffer display ready to be displayed by window::display
+        /// \param obj The object to be displayed
         void drawObject(Object& obj);
 
         /// Draws every object in the scene that wants to be drawn.
         void drawAll();
 
-        /// Sets the camera to have a perspective _projection.
+        /// Sets the camera to have a perspective projection.
         /// \param fovY The angle the camera sees in the y axis.
-        /// \param lowerRangeBound the minimum view distance
-        /// \param upperRangeBound the maximum view distance
+        /// \param lowerRangeBound The minimum view distance
+        /// \param upperRangeBound The maximum view distance
         void setPerspective(float fovY=45, float lowerRangeBound=0.1, float upperRangeBound=100);
 
-        /// Sets the camera to have a perspective _projection.
+        /// Sets the camera to have a perspective projection.
         /// \param fovY The angle the camera sees in the y axis.
         /// \param aspectRatio The aspect ratiu, fovx/fovY.
-        /// \param lowerRangeBound the minimum view distance
-        /// \param upperRangeBound the maximum view distance
+        /// \param lowerRangeBound The minimum view distance
+        /// \param upperRangeBound The maximum view distance
         void setPerspective(float fovY=45, float aspectRatio= 16.0 / 9.0, float lowerRangeBound=0.1, float upperRangeBound=100);
 
+        /// Sets the camer ato have an orthographic projection
+        /// \param left The left width of the camera
+        /// \param right The right width of the camera
+        /// \param bottom The bottom height of the camera
+        /// \param top The top height of the camera
+        /// \param lowerRangeBound The minimum view distance
+        /// \param upperRangeBound The maximum view distance
         void setOrthographic(float left=-1, float right=1, float bottom=-1, float top=1, float lowerRangeBound=0.1, float upperRangeBound=100);
 
-        /// translates the camera's positions relative to global coordinates
+        /// Translates the camera's positions relative to global coordinates
+        /// \param vec The 3D vector to translate the camera by
         void translate(vec3 vec);
 
-        /// translates the camera's position relative to its orientation (right, up, forward)
+        /// Translates the camera's position relative to its orientation (right, up, forward)
         void relativeTranslate(vec3 vec);
 
+        /// Returns the current position of the camera
         vec3 getPosition();
 
+        /// Sets the yaw (XZ plane rotation)
+        /// \param deg The new yaw in degrees
         void setYaw(float deg);
 
+        /// Alters the yaw (XZ plane rotation)
+        /// \param deg tThe amount to change the yaw (degrees)
         void rotateYaw(float deg);
 
+        /// Returns the current yaw (XZ plane rotation) of the camera
         [[nodiscard]] float getYaw() const;
 
+        /// Sets the pitch
+        /// \param deg the new yaw in degrees
         void setPitch(float deg);
 
+        /// Alters the pitch
+        /// \param deg the new pitch in degrees
         void rotatePitch(float deg);
 
+        /// Returns the current pitch of the camera
         [[nodiscard]] float getPitch() const;
 
-        /// applies WASD _^ movements by default.
-        /// note window.loadInputs() must be called before this to work
+        /// Applies WASD _^ movements by default. \n
+        /// NOTE window.loadInputs() must be called before this to work
         void pollDefaultMovementInputs(float speed=1.0, float sensitivity=0.2);
 
     private:
