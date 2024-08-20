@@ -16,12 +16,20 @@
 
 
 namespace slt::window {
-    void init(unsigned int width, unsigned int height, char *title = (char*)"");
+    /// Initialises slooth. Must be called before ANYTHING in slooth is used.
+    void init(unsigned int width, unsigned int height, std::string title = "");
 
+    /// Whether window::init has been called.
+    ///This is mainly used in the internals of Slooth to ensure no OpenGL functionality is used before it has been registered
     bool isInit();
 
+    /// whether the user has clicked the close window button OR if window::close was called
     bool shouldClose();
 
+    /// sets shouldClose to true
+    void close();
+
+    /// registers all user inputs so they can be accessed via funcions like window::isPressed and window::getMousePos
     void loadInputs();
 
     /// returns whether a key is being held down
@@ -32,12 +40,16 @@ namespace slt::window {
     /// returns false if the key is not being held or last time this was called the key was being held
     bool isPressed(Key key);
 
+    /// fills the buffer display to a full colour
     void fill(float r, float g, float b, float a);
 
+    /// swaps the buffer display with the current display
     void display();
 
+    /// the window's height
     [[nodiscard]] unsigned int getHeight();
 
+    /// the window's width
     [[nodiscard]] unsigned int getWidth();
 
     /// returns the time since initialisation of the window (seconds)
@@ -55,27 +67,40 @@ namespace slt::window {
     /// returns a vector of all of the objects in the scene.
     [[nodiscard]] std::vector<Object*> objectList();
 
+    /// the position of the mouse on the screen.
     vec2 getMousePos();
 
+    /// how much the mouse's position has changed in the last two calls of window::loadInputs
     vec2 getDeltaMousePos();
 
+    /// will allow/disallow the user to move the mouse
     void setMouseLocked(bool shouldLock);
+
+    /// changes the state of the mouse being locked or unlocked
     void toggleMouseLocked();
+
+    /// returns whether the mouse is locked
     bool mouseLocked();
 
+    /// will change slooth to display the wireframes of the objects instead of the whole faces
     void setWireframe(bool displayWireframe);
+
+    /// toggles whether slooth displays the wireframes or the whole faces of the objects
     void toggleWireframe();
+
+    /// returns whether slooth is currently displaying only the wireframes
     bool wireFrame();
 
+    /// limits the display rate of slooth
     void capFPS(bool shouldCap);
+
+    /// returns the FPS of the window. Technically 1/window::deltaTime()
     double getFPS();
 
-    void close();
-
+    /// terminates slooth
     void terminate();
 
-    /// Called automatically by every object to add it to the objectList.
+    /// Called automatically by every object to add it to the scene's objectList.
     void registerObject(Object& obj);
-
 }
 

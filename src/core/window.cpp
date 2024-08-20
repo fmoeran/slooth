@@ -61,11 +61,11 @@ namespace slt::window {
         std::memset(_keyPressed, 0, sizeof(_keyPressed));
     }
 
-    void init(unsigned int width, unsigned int height, char *title) {
+    void init(unsigned int width, unsigned int height, std::string title) {
         assert(_windowPtr == nullptr);
         loadGLFW();
 
-        _windowPtr = glfwCreateWindow(width, height, title, nullptr, nullptr);
+        _windowPtr = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
         if (_windowPtr == nullptr) {
             std::cout << "Failed to create GLFW window" << std::endl;

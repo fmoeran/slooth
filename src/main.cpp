@@ -13,6 +13,7 @@ const unsigned int SCR_HEIGHT = 600;
 int main()
 {
     window::init(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
+    window::capFPS(false);
 
     Camera camera(45.0, {0, 0, 2});
     camera.setYaw(180);
