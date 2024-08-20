@@ -32,7 +32,8 @@ namespace slt
     public:
         Object();
 
-        /// Sets the object to point to a specific mesh of vertices and the indexes to draw them at
+        /// Sets the object to point to a specific mesh of vertices and the indexes to draw them at.
+        /// Also assigns a default shader program to the object if one has not already been given via Object::setShaderProgram()
         /// \param vertexType slt::VertexEnum type, specifies what type of vertex is being stored in vertices
         /// \param vertices void pointer to the beginning of the vertices container
         /// \param vertSize number of bytes in vertices
@@ -49,20 +50,30 @@ namespace slt
         /// \param program A shader program with buildProgram already called.
         void setShaderProgram(ShaderProgram& program);
 
+        /// I don't know why this is here
         void refreshVertices();
 
+        /// Sets the location of the Object in 3D space.
+        /// \param coords the location to set
         void setWorldSpace(vec3 coords);
+
+        /// Moves the location of the object. equivalent to setWorldSpace(getWorldSpace() + vec).
+        /// \param the displacement to add to the current position
         void translate(vec3 vec);
+
+        /// Returns the current location of the object.
         vec3 getWorldSpace();
 
+        /// Sets the scale of the object.
+        /// \param scales the (x,y,z) to scale the object by.
         void setScale(vec3 scales);
+        /// Returns the current scale of the object.
         vec3 getScale();
 
         /// Sets the rotation of the object, rotated from the original orientation (not the current orientation)..
         /// \param angle the angle of rotation in radians.
         /// \param vec the vector to rotate around
         void setRotation(float angle, vec3 vec);
-
 
         /// Sets the colour of an object without a texture.
         /// sets the diffuse and ambience of the object's material to this colour
@@ -83,15 +94,18 @@ namespace slt
         /// \param b blue [0-255]
         void setPlainColour(int r, int g, int b);
 
+        /// The material being used by the object.
         Material& material();
 
         /// returns whether the object reacts to light.
         bool usesLights();
 
         /// this determines whether that Camera::drawAll should draw this object.
+        /// \param shouldAuto whether it should be auto drawn
         void setAutoDraw(bool shouldAuto);
+
         /// Returns whether this object will be drawn by Camera::drawAll()..
-        bool isAutoDrawing() const;
+        [[nodiscard]] bool isAutoDrawing() const;
 
         [[nodiscard]] glm::mat4 getTransformMatrix() const;
     private:
