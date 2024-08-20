@@ -99,7 +99,7 @@ namespace slt
         void setUniforms(ShaderProgram& program) {
             // POINT LIGHTS
             glUniform1i(program.getUniformLocation("uNumPointLights"), numPointLights);
-            for (int index = 0; index < numPointLights; index++) {
+            for (size_t index = 0; index < numPointLights; index++) {
                 std::string name = "uPointLights[" + std::to_string(index) + "]";
                 PointLight& light = *pointLights[index];
                 light.setUniforms(program, name);
@@ -107,7 +107,7 @@ namespace slt
 
             // DIRECTIONAL LIGHTS
             glUniform1i(program.getUniformLocation("uNumDirectionalLights"), numDirectionalLights);
-            for (int index = 0; index < numDirectionalLights; index++) {
+            for (size_t index = 0; index < numDirectionalLights; index++) {
                 std::string name = "uDirectionalLights[" + std::to_string(index) + "]";
                 DirectionalLight& light = *directionalLights[index];
                 light.setUniforms(program, name);

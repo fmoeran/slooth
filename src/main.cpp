@@ -14,22 +14,29 @@ int main()
 {
     window::init(SCR_WIDTH, SCR_HEIGHT, (char*)"Slooth Window");
 
-    window::capFPS(30);
-
     Camera camera(45.0, {0, 0, 2});
     camera.setYaw(180);
 
-    Cuboid obj({0, 0, 0}, {1, 1, 1});
-    obj.setPlainColour({0.8, 0.3, 0.5});
 
-    UVSphere sphere({-1, 1, -1}, 1, 100);
-    sphere.setPlainColour({0.4, 0.8, 0.6});
+    const int N = 1000;
+    const int M = 10;
+    std::vector<Cuboid> cubes(N);
+    for (int i=0; i<N; i++) {
+        auto x= (float)(i%M), y = (float)((i/M)%M), z = (float)((i/M/M)%M);
+        x -= (float)M/2;
+        y -= (float)M/2;
+        z = -z;
+        cubes[i].setWorldSpace({x, y, z});
+        cubes[i].setPlainColour({0.8, 0.4, 0.6});
+        cubes[i].setScale(vec3(0.5));
+    }
 
-    Plane plane({0, -0.5, 0}, {100, 100}, {100, 100});
 
-    PointLight light1({1, 1, 1});
+//    PointLight light1({1, 1, 1});
 
     DirectionalLight light2({1, -1, 1});
+    DirectionalLight light3({-1, -1, -1});
+
 
     window::setMouseLocked(true);
 //    window::toggleWireframe();
@@ -51,6 +58,8 @@ int main()
         camera.drawAll();
 
         window::display();
+
+        std::cout << window::getFPS() << '\n';
     }
     window::terminate();
 }

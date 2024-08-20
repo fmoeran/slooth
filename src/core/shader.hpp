@@ -63,8 +63,6 @@ namespace slt
         unsigned int _ID;
         std::map<std::string, int> _uniformLocations;
         std::set<std::string> _seenUniforms;
-
-        friend class ShaderProgram;
     };
 }
 

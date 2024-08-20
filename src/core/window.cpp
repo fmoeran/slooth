@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <memory>
 
 bool gladLoaded = false;
 

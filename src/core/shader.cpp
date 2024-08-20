@@ -103,11 +103,11 @@ namespace slt
     }
 
     bool ShaderProgram::isNull() const {
-        return _ID == -1;
+        return _ID == 0;
     }
 
     void ShaderProgram::makeNull() {
-        _ID = -1;
+        _ID = 0;
     }
 
     int ShaderProgram::numUniformsRegistered() {
